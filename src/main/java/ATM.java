@@ -1,6 +1,7 @@
 
 public class ATM {
-    int blockCount = 0; //To count how many times pin has been entered
+    //int blockCount = 0; //To count how many times pin has been entered
+    // ^^ This has been added as an attribute of Card
     int funds = 0; //amount of money in ATM
 
     public void confiscate(){
