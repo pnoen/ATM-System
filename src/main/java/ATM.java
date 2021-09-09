@@ -12,8 +12,8 @@ public class ATM {
     }
 
     public int checkBalance(){
-        Transaction money = new Transaction();
-        return money.checkBalance();
+        Transaction wallet = new Transaction();
+        return wallet.checkBalance();
     }
 
     public void cancel(){
