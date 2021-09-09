@@ -1,11 +1,11 @@
 import java.util.Date;
 
 public class Card {
-    private int AccNo;
-    private int PIN;
-    private boolean isLost;
-    private Date issueDate = new Date();
-    private Date expiryDate = new Date();
+    private int AccNo; // Account Number
+    private int PIN; // Account PIN Number
+    private boolean isLost; // Is the card lost or stolen
+    private Date issueDate = new Date(); // Date of issue
+    private Date expiryDate = new Date(); // Expiry date
     
     public Card(int n, int p, Date iDate, Date eDate) {
         this.AccNo = n;
@@ -13,7 +13,6 @@ public class Card {
         this.isLost = False;
         this.issueDate = iDate;
         this.expiryDate = eDate;
-        this.attempts = 0;
     }
     
     public void setPIN(int p) {
