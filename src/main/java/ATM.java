@@ -1,6 +1,6 @@
 
 public class ATM {
-    int blockCount = 0; //To count how many times pin has been entered
+    int PINattempts = 0; //To count how many times pin has been entered
     int funds = 0; //amount of money in ATM
 
     public void confiscate(){
