@@ -1,7 +1,7 @@
 import java.util.Date;
 
 public class Card {
-    private int Num;
+    private int AccNo;
     private int PIN;
     private boolean isLost;
     private Date issueDate = new Date();
@@ -9,7 +9,7 @@ public class Card {
     private int attempts;
     
     public Card(int n, int p, Date iDate, Date eDate) {
-        this.Num = n;
+        this.AccNo = n;
         this.PIN = p;
         this.isLost = False;
         this.issueDate = iDate;
@@ -19,6 +19,22 @@ public class Card {
     
     public void setPIN(int p) {
         this.PIN = p;
+    }
+    
+    public int getAccNo() {
+        return this.AccNo;
+    }
+    
+    public Date getIssueDate() {
+        return this.issueDate;
+    }
+    
+    public Date getExpiryDate() {
+        return this.expiryDate;
+    }
+    
+    public boolean getIsLost() {
+        return this.isLost;
     }
     
     public int getPIN() {
