@@ -6,7 +6,6 @@ public class Card {
     private boolean isLost;
     private Date issueDate = new Date();
     private Date expiryDate = new Date();
-    private int attempts;
     
     public Card(int n, int p, Date iDate, Date eDate) {
         this.AccNo = n;
@@ -39,14 +38,6 @@ public class Card {
     
     public int getPIN() {
         return this.PIN;
-    }
-    
-    public int getAttempts() {
-        return this.attempts;
-    }
-    
-    public void setAttempts(int attempt) {
-        this.attempts += attempt;
     }
     
     public boolean isValid(){
