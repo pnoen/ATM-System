@@ -1,1 +1,1 @@
-ECHO is on.
+Assignment 1 - ATM
