@@ -38,6 +38,10 @@ public class Card {
     public int getPIN() {
         return this.pin;
     }
+
+    public int getCurrBalance() {
+        return this.currBalance;
+    }
     
     public boolean isValid(){
         //whether the card entered is a valid card number

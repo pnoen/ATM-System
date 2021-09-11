@@ -17,6 +17,7 @@ public class ATM {
     private String currentDate;
     private String fileName;
     private List<Card> cards = new ArrayList<>();
+    private Card currCard = null;
 
     public ATM(String currentDate, String fileName){
         this.currentDate = currentDate;
@@ -65,8 +66,8 @@ public class ATM {
         return "Not enough money";
     }
 
-    public int checkBalance(){
-        return 0;
+    public int checkBalance(Card card){
+        return card.getCurrBalance();
     }
 
     public void cancel(){
@@ -84,7 +85,47 @@ public class ATM {
         return "Not enough money inside ATM";
     }
 
+    public boolean checkValid(int cardID) {
+        // Check if the card id has 5 digits. Since we take in an int, it doesn't keep leading zeros.
+        if (Integer.toString(cardID).length() > 5) {
+            System.out.println("Incorrect number of digits.");
+            return false;
+        }
 
+        // Check through the system database if there is an existing card with the same id
+        boolean validID = checkValidID(cardID);
+        if (validID == false) {
+            System.out.println("Not a valid card number.");
+            return false;
+        }
+
+        // Check if the current date of the atm is after the issue date of the card
+
+        // Check if the current date of the atm is before the expiry date of the card
+
+        // Check if the card has been stolen
+        boolean stolen = this.checkStolen();
+        if (stolen == false) {
+            System.out.println("This card is lost or has been stolen.");
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean checkValidID(int cardID) {
+        for (Card c : this.cards) {
+            if (c.getAccNo() == cardID) {
+                this.currCard = c;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkStolen() {
+        return this.currCard.getIsLost();
+    }
 
 //While true loop, ends when we need it to
 //Entry message before the loop
@@ -107,7 +148,7 @@ public class ATM {
             if (cardInput.hasNextInt()) {
                 cardID = cardInput.nextInt();
 //                input.close(); // stop the scanner
-                System.out.println("Closed");
+//                System.out.println("Closed");
             }
             else {
                 cardInput.nextLine(); // clear the input reader
@@ -115,7 +156,13 @@ public class ATM {
                 System.out.println();
                 continue; // this will send it back to the start of the loop, skipping the code after this
             }
-            // Check if the card number is valid
+
+            // Check if the card is valid
+            boolean valid = atm.checkValid(cardID);
+            if (valid == false) {
+                continue;
+            }
+
             // If card exist, ask for PIN
                 // If PIN is correct
                     // Check if the card is valid to use
