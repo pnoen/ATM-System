@@ -1,3 +1,8 @@
+import java.util.Scanner;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+
 //Pass the date in the constructor
 //Check the isLost for confiscate
 //Create the main loop
@@ -5,13 +10,13 @@
 //Create a card instance
 //Create a function that reads the csv, for each of the lines create a card and then store cards in an arraylist
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 public class ATM {
-    String currentDate;
-    String fileName;
-    List<Card> cards = new ArrayList<>();
+    private int PINattempts = 0; //To count how many times pin has been entered
+    private int funds = 0; //amount of money in ATM
+    private boolean running = true;
+    private String currentDate;
+    private String fileName;
+    private List<Card> cards = new ArrayList<>();
 
     public ATM(String currentDate, String fileName){
         this.currentDate = currentDate;
@@ -73,8 +78,27 @@ public class ATM {
 //Scan for pin, check if pins counter that has a max of 3
 //Present options
 //Scan for input
-    public static void main(String args[]){
-        System.out.println("test");
+
+    public static void main(String[] args){
+        // Create the atm and start it.
+        ATM atm = new ATM("01/01/2021", "cards.csv");
+        while (atm.running) {
+            // Ask for card number
+            Scanner input = new Scanner(System.in);
+            System.out.print("Enter your card number: ");
+            int cardNum = input.nextInt();
+            // Check if the card number is valid
+            // If card exist, ask for PIN
+                // If PIN is correct
+                    // Check if the card is valid to use
+                        // If valid, provide the user with the 4 options (Withdraw, deposit, check balance, exit account)
+                // If incorrect, (After 3 failed attempts - lock the card, print an apology, reset the loop to ask for another card)
+                    // Ask for another attempt
+
+            // If card doesn't exist, continue the loop to ask for another card
+
+        }
+
     }
 
 
