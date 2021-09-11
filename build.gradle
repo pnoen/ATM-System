@@ -20,6 +20,8 @@ test {
     useJUnitPlatform()
 }
 
+
+
 jacocoTestReport {
     reports {
         html.enabled = true
@@ -28,5 +30,6 @@ jacocoTestReport {
 }
 
 mainClassName = 'ATM'
+
 
 
