@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -11,8 +13,6 @@ import java.util.*;
 //Create a function that reads the csv, for each of the lines create a card and then store cards in an arraylist
 
 public class ATM {
-    private int PINattempts = 0; //To count how many times pin has been entered
-    private int funds = 0; //amount of money in ATM
     private boolean running = true;
     private String currentDate;
     private String fileName;
@@ -23,9 +23,22 @@ public class ATM {
         this.fileName = fileName;
     }
 
-    public void readCSV(){
+    public void readCSV() throws ParseException {
+        Scanner sc = null; // Set as null so it can be used outside the try catch
+        try { // Calls an error if the csv file is not found
+            sc = new Scanner(new File("cards.csv"));
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("Could not load the database");
+        }
 
-
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            String[] details = line.split(",");
+            // Create the cards
+            Card card = createCard(details[0], details[1], details[2], details[3], details[4], details[5]);
+            this.cards.add(card);
+        }
     }
 
 
@@ -79,19 +92,32 @@ public class ATM {
 //Present options
 //Scan for input
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws ParseException {
         // Create the atm and start it.
         ATM atm = new ATM("01/01/2021", "cards.csv");
+        atm.readCSV();
         while (atm.running) {
-            // Ask for card number
+            // Ask for card number - ensure that an int is given, not a different data type
             Scanner input = new Scanner(System.in);
             System.out.print("Enter your card number: ");
-            int cardNum = input.nextInt();
+            int cardID = 0;
+            // Check if the input given is an integer
+            if (input.hasNextInt()) {
+                cardID = input.nextInt();
+                input.close(); // stop the scanner
+            }
+            else {
+                input.nextLine(); // clear the input reader
+                System.out.println("Integers only!");
+                System.out.println();
+                continue; // this will send it back to the start of the loop, skipping the code after this
+            }
             // Check if the card number is valid
             // If card exist, ask for PIN
                 // If PIN is correct
                     // Check if the card is valid to use
                         // If valid, provide the user with the 4 options (Withdraw, deposit, check balance, exit account)
+                            // if exit account is selected, return the user back to the home screen (where the user enters a card number)
                 // If incorrect, (After 3 failed attempts - lock the card, print an apology, reset the loop to ask for another card)
                     // Ask for another attempt
 
