@@ -29,4 +29,6 @@ jacocoTestReport {
 
 mainClassName = 'ATM'
 
-
+run {
+    standardInput = System.in
+}

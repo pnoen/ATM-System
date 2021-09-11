@@ -26,10 +26,11 @@ public class ATM {
     public void readCSV() throws ParseException {
         Scanner sc = null; // Set as null so it can be used outside the try catch
         try { // Calls an error if the csv file is not found
-            sc = new Scanner(new File("cards.csv"));
+            sc = new Scanner(new File("src/main/java/cards.csv"));
         }
         catch (FileNotFoundException e) {
             System.out.println("Could not load the database");
+            System.exit(0);
         }
 
         while (sc.hasNextLine()) {
@@ -96,18 +97,20 @@ public class ATM {
         // Create the atm and start it.
         ATM atm = new ATM("01/01/2021", "cards.csv");
         atm.readCSV();
+        Scanner cardInput = new Scanner(System.in);
         while (atm.running) {
             // Ask for card number - ensure that an int is given, not a different data type
-            Scanner input = new Scanner(System.in);
+            
             System.out.print("Enter your card number: ");
             int cardID = 0;
             // Check if the input given is an integer
-            if (input.hasNextInt()) {
+            if (cardInput.hasNextInt()) {
                 cardID = input.nextInt();
-                input.close(); // stop the scanner
+//                input.close(); // stop the scanner
+                System.out.println("Closed");
             }
             else {
-                input.nextLine(); // clear the input reader
+                cardInput.nextLine(); // clear the input reader
                 System.out.println("Integers only!");
                 System.out.println();
                 continue; // this will send it back to the start of the loop, skipping the code after this
