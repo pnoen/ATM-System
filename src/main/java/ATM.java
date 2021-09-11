@@ -272,7 +272,7 @@ public class ATM {
                             System.out.println("Card is now being ejected.");
                             isComplete = true;
                         }
-
+                        
                     }
                     else if (option == 2){
                         continue;
