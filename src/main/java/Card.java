@@ -18,7 +18,6 @@ public class Card {
         this.issueDate = issueDate;
         this.expiryDate = expiryDate;
     }
-
     
     public int getAccNo() {
         return this.cardID;
