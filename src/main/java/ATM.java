@@ -175,6 +175,13 @@ public class ATM {
         System.out.println("\nReceipt No: " +  this.transactionCount + "\n" + "Transaction type : Withdraw\n" + "Amount withdrawed: " + amount + "\n" + "Current Balance: " + this.currCard.getCurrBalance());
     }
 
+    public void deposit(int amount) {
+        this.transactionCount++;
+        int finalAmount = this.currCard.getCurrBalance() + amount;
+        this.currCard.setCurrBalance(finalAmount);
+        System.out.println("\nReceipt No: " +  this.transactionCount + "\n" + "Transaction type : Deposit\n" + "Amount deposited: " + amount + "\n" + "Current Balance: " + this.currCard.getCurrBalance());
+    }
+
 
 
 
@@ -264,32 +271,6 @@ public class ATM {
 
                 }
 
-            }
-            boolean isComplete = false;
-
-            while(!(isComplete)){
-                System.out.print("Welcome to XYZ ATM, what would you like to do: \n" +
-                        "1. Withdrawal of funds\n" +
-                        "2. Deposit of Funds\n" +
-                        "3. Balance Check\n" + "Please enter the number corresponding to the action: ");
-
-                int selection = 0;
-                if (cardInput.hasNextInt()) {
-                    selection = cardInput.nextInt();
-                }
-                if(selection == 1){
-                    System.out.print("How much would you like to withdraw: ");
-                    if (cardInput.hasNextInt()) {
-                        int amount = cardInput.nextInt();
-                        atm.withdraw(amount);
-                        System.out.println("Card is now being ejected.");
-                        isComplete = true;
-                    }
-                }
-                if(selection == 3){
-                    System.out.println("Your current account balance is: " + atm.checkBalance());
-                    isComplete = true;
-                }
             }
 
             // If valid and pin is correct, provide the user with the 4 options (Withdraw, deposit, check balance, exit account)
