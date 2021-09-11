@@ -3,11 +3,12 @@ import java.util.Date;
 public class Card {
     private int AccNo; // Account Number
     private int PIN; // Account PIN Number
+    private int bal; // Account balance
     private boolean isLost; // Is the card lost or stolen
     private Date issueDate = new Date(); // Date of issue
     private Date expiryDate = new Date(); // Expiry date
     
-    public Card(int n, int p, Date iDate, Date eDate) {
+    public Card(int n, int p, int b, Date iDate, Date eDate) {
         this.AccNo = n;
         this.PIN = p;
         this.isLost = false;
