@@ -58,25 +58,6 @@ public class ATM {
         return newCard;
     }
 
-    public boolean checkDate() throws ParseException {
-        boolean result = true;
-        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
-        Date currDate = sdf.parse(this.currentDate);
-
-        long iDiff = Math.abs(currDate.getTime() - this.currCard.getIssueDate().getTime());
-        if(iDiff < 0){
-            result = false;
-        }
-        long eDiff = Math.abs(this.currCard.getExpiryDate().getTime() - currDate.getTime());
-        if(eDiff < 0){
-            result = false;
-        }
-
-        return result;
-
-    }
-
-
     public void confiscate(){
         //confiscate the card, make it invalid
     }
@@ -104,7 +85,7 @@ public class ATM {
         return "Not enough money inside ATM";
     }
 
-    public boolean checkValid(int cardID) {
+    public boolean checkValid(int cardID) throws ParseException {
         // Check if the card id has 5 digits. Since we take in an int, it doesn't keep leading zeros.
         if (Integer.toString(cardID).length() > 5) {
             System.out.println("Incorrect number of digits.");
@@ -119,8 +100,12 @@ public class ATM {
         }
 
         // Check if the current date of the atm is after the issue date of the card
-
         // Check if the current date of the atm is before the expiry date of the card
+        boolean validDate = checkDate();
+        if (validDate == false) {
+            System.out.println("Card date is invalid.");
+            return false;
+        }
 
         // Check if the card has been stolen
         boolean stolen = this.checkStolen();
@@ -144,6 +129,24 @@ public class ATM {
 
     public boolean checkStolen() {
         return this.currCard.getIsLost();
+    }
+    
+    public boolean checkDate() throws ParseException {
+        boolean result = true;
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+        Date currDate = sdf.parse(this.currentDate);
+
+        long iDiff = Math.abs(currDate.getTime() - this.currCard.getIssueDate().getTime());
+        if(iDiff < 0){
+            result = false;
+        }
+        long eDiff = Math.abs(this.currCard.getExpiryDate().getTime() - currDate.getTime());
+        if(eDiff < 0){
+            result = false;
+        }
+
+        return result;
+
     }
 
 //While true loop, ends when we need it to
