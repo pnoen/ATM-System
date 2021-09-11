@@ -11,6 +11,7 @@ public class Card {
     public Card(int n, int p, int b, Date iDate, Date eDate) {
         this.AccNo = n;
         this.PIN = p;
+        this.bal = b;
         this.isLost = false;
         this.issueDate = iDate;
         this.expiryDate = eDate;
