@@ -175,6 +175,13 @@ public class ATM {
         System.out.println("\nReceipt No: " +  this.transactionCount + "\n" + "Transaction type : Withdraw\n" + "Amount withdrawed: " + amount + "\n" + "Current Balance: " + this.currCard.getCurrBalance());
     }
 
+    public void deposit(int amount) {
+        this.transactionCount++;
+        int finalAmount = this.currCard.getCurrBalance() + amount;
+        this.currCard.setCurrBalance(finalAmount);
+        System.out.println("\nReceipt No: " +  this.transactionCount + "\n" + "Transaction type : Deposit\n" + "Amount deposited: " + amount + "\n" + "Current Balance: " + this.currCard.getCurrBalance());
+    }
+
 
 
 
@@ -276,7 +283,6 @@ public class ATM {
 
                     }
 
-
                 }
                 if(selection == 2){
                     System.out.print("Would you like to\n" +
@@ -286,6 +292,7 @@ public class ATM {
                     if (cardInput.hasNextInt()) {
                         option = cardInput.nextInt();
                     }
+
                     if (option == 1){
                         System.out.print("How much would you like to deposit: ");
                         if (cardInput.hasNextInt()) {
@@ -294,7 +301,6 @@ public class ATM {
                             System.out.println("Card is now being ejected.");
                             isComplete = true;
                         }
-
                     }
                     else if (option == 2){
                         continue;
@@ -302,17 +308,13 @@ public class ATM {
                     else {
                         cardInput.nextLine(); // clear the input reader
                         System.out.println("\nCorrect input only!\n");
-
                     }
-
-
                 }
                 if(selection == 3){
                     System.out.println("Your current account balance is: " + atm.checkBalance());
                     isComplete = true;
 
                 }
-
             }
 
             // If valid and pin is correct, provide the user with the 4 options (Withdraw, deposit, check balance, exit account)
