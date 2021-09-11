@@ -163,21 +163,19 @@ public class ATM {
         return this.currCard.getPIN() == inputPin;
     }
 
-//While true loop, ends when we need it to
-//Entry message before the loop
-//Scanner for Card number, if number is valid
-//Scan for pin, check if pins counter that has a max of 3
-//Present options
-//Scan for input
 
+
+
+    
     public static void main(String[] args) throws ParseException {
         // Create the atm and start it.
         ATM atm = new ATM("01/01/2021", "cards.csv");
         atm.readCSV();
         Scanner cardInput = new Scanner(System.in);
         while (atm.running) {
+            System.out.println();
+
             // Ask for card number - ensure that an int is given, not a different data type
-            
             System.out.print("Enter your card number: ");
             int cardID = 0;
             // Check if the input given is an integer
@@ -189,38 +187,37 @@ public class ATM {
             else {
                 cardInput.nextLine(); // clear the input reader
                 System.out.println("Integers only!");
-                System.out.println();
                 continue; // this will send it back to the start of the loop, skipping the code after this
             }
 
             // Check if the card is valid
             boolean valid = atm.checkValid(cardID);
-            if (valid == false) {
+            if (valid == false) { // If card doesn't exist, continue the loop to ask for another card
                 continue;
             }
+
+            // If card exist, ask for PIN
             int counter = 1;
-            while (counter < 4){
+            while (counter < 4) {
+                System.out.println();
                 System.out.print("Enter your card pin: ");
                 if (cardInput.hasNextInt()) {
                     int cardP = cardInput.nextInt();
                     boolean result = atm.checkPIN(cardP);
-                    if(result){
+
+                    if(result){ // If PIN is correct
                         System.out.println("Success");
                         break;
                     }
-                    else{
+                    else{ // If incorrect, (After 3 failed attempts - lock the card, print an apology, reset the loop to ask for another card)
                         System.out.println("Invalid Pin " + (3-counter) + " attempts remaining before the card is blocked");
                         counter++;
                     }
-
-
-
                 }
 
                 else {
                     cardInput.nextLine(); // clear the input reader
                     System.out.println("Integers only!");
-                    System.out.println();
                     counter++;
                 }
             }
@@ -229,15 +226,8 @@ public class ATM {
                 System.out.println("This card has been blocked");
             }
 
-            // If card exist, ask for PIN
-                // If PIN is correct
-                    // Check if the card is valid to use
-                        // If valid, provide the user with the 4 options (Withdraw, deposit, check balance, exit account)
-                            // if exit account is selected, return the user back to the home screen (where the user enters a card number)
-                // If incorrect, (After 3 failed attempts - lock the card, print an apology, reset the loop to ask for another card)
-                    // Ask for another attempt
-
-            // If card doesn't exist, continue the loop to ask for another card
+            // If valid and pin is correct, provide the user with the 4 options (Withdraw, deposit, check balance, exit account)
+                // if exit account is selected, return the user back to the home screen (where the user enters a card number)
 
         }
 
