@@ -10,7 +10,7 @@ public class Card {
     public Card(int n, int p, Date iDate, Date eDate) {
         this.AccNo = n;
         this.PIN = p;
-        this.isLost = False;
+        this.isLost = false;
         this.issueDate = iDate;
         this.expiryDate = eDate;
     }
