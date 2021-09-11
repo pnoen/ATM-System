@@ -16,6 +16,7 @@ public class ATM {
     private String currentDate;
     private String fileName;
     private List<Card> cards = new ArrayList<>();
+    private Card currCard = null;
 
     public ATM(String currentDate, String fileName){
         this.currentDate = currentDate;
@@ -37,14 +38,14 @@ public class ATM {
                 String line = sc.nextLine();
                 String[] details = line.split(",");
                 // Create the cards
-                Card card = createCard(details[0], details[1], details[2], details[3], details[4], details[5]);
+                Card card = createCard(details[0], details[1], details[2], details[3], details[4], details[5], details[6]);
                 this.cards.add(card);
             }
         }
     }
 
 
-    public Card createCard(String cardID, String fullname, String pin, String currBalance, String issueDate, String expiryDate) throws ParseException {
+    public Card createCard(String cardID, String fullname, String pin, String currBalance, String issueDate, String expiryDate, String state) throws ParseException {
         //Converting the String to Date Format
         SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
         Date iDate = sdf.parse(issueDate);
@@ -53,10 +54,30 @@ public class ATM {
         int cardIDInt = Integer.parseInt(cardID);
         int pinInt = Integer.parseInt(pin);
         int currBalanceInt = Integer.parseInt(currBalance);
-        Card newCard = new Card(cardIDInt, fullname, pinInt, currBalanceInt, iDate, eDate);
+        boolean currState = Boolean.parseBoolean(state);
+        Card newCard = new Card(cardIDInt, fullname, pinInt, currBalanceInt, iDate, eDate, currState);
 
         return newCard;
     }
+
+    public boolean checkDate() throws ParseException {
+        boolean result = true;
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+        Date currDate = sdf.parse(this.currentDate);
+
+        long iDiff = Math.abs(currDate.getTime() - this.currCard.getIssueDate().getTime());
+        if(iDiff < 0){
+            result = false;
+        }
+        long eDiff = Math.abs(this.currCard.getExpiryDate().getTime() - currDate.getTime());
+        if(eDiff < 0){
+            result = false;
+        }
+
+        return result;
+
+    }
+
 
     public void confiscate(){
         //confiscate the card, make it invalid
