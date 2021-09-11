@@ -109,8 +109,14 @@ public class ATM {
 
         // Check if the card has been stolen
         boolean stolen = this.checkStolen();
-        if (stolen == false) {
+        if (stolen == true) {
             System.out.println("This card is lost or has been stolen.");
+            return false;
+        }
+
+        boolean blocked = this.checkBlockState();
+        if (blocked == true) {
+            System.out.println("This card is blocked.");
             return false;
         }
 
@@ -149,6 +155,14 @@ public class ATM {
 
     }
 
+    public boolean checkBlockState(){
+        return this.currCard.getBlockState();
+    }
+
+    public boolean checkPIN(int inputPin) {
+        return this.currCard.getPIN() == inputPin;
+    }
+
 //While true loop, ends when we need it to
 //Entry message before the loop
 //Scanner for Card number, if number is valid
@@ -183,6 +197,36 @@ public class ATM {
             boolean valid = atm.checkValid(cardID);
             if (valid == false) {
                 continue;
+            }
+            int counter = 1;
+            while (counter < 4){
+                System.out.print("Enter your card pin: ");
+                if (cardInput.hasNextInt()) {
+                    int cardP = cardInput.nextInt();
+                    boolean result = atm.checkPIN(cardP);
+                    if(result){
+                        System.out.println("Success");
+                        break;
+                    }
+                    else{
+                        System.out.println("Invalid Pin " + (3-counter) + " attempts remaining before the card is blocked");
+                        counter++;
+                    }
+
+
+
+                }
+
+                else {
+                    cardInput.nextLine(); // clear the input reader
+                    System.out.println("Integers only!");
+                    System.out.println();
+                    counter++;
+                }
+            }
+            if(counter == 4){
+                atm.currCard.setBlockState(true);
+                System.out.println("This card has been blocked");
             }
 
             // If card exist, ask for PIN
