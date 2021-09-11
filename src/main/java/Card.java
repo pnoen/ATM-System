@@ -48,6 +48,9 @@ public class Card {
         return this.pin;
     }
 
+    public void setCurrBalance(int newBalance){
+        this.currBalance = newBalance;
+    }
     public int getCurrBalance() {
         return this.currBalance;
     }
