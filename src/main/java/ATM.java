@@ -105,7 +105,7 @@ public class ATM {
             int cardID = 0;
             // Check if the input given is an integer
             if (cardInput.hasNextInt()) {
-                cardID = input.nextInt();
+                cardID = cardInput.nextInt();
 //                input.close(); // stop the scanner
                 System.out.println("Closed");
             }
