@@ -17,6 +17,7 @@ public class ATM {
     private String fileName;
     private List<Card> cards = new ArrayList<>();
     private Card currCard = null;
+    private int transactionCount = 0;
 
     public ATM(String currentDate, String fileName){
         this.currentDate = currentDate;
@@ -163,6 +164,17 @@ public class ATM {
         return this.currCard.getPIN() == inputPin;
     }
 
+    public int checkBalance(){
+        return this.currCard.getCurrBalance();
+    }
+
+    public void withdraw(int amount){
+        this.transactionCount++;
+        int finalAmount = this.currCard.getCurrBalance() - amount;
+        this.currCard.setCurrBalance(finalAmount);
+        System.out.println("\nReceipt No: " +  this.transactionCount + "\n" + "Transaction type : Withdraw\n" + "Amount withdrawed: " + amount + "\n" + "Current Balance: " + this.currCard.getCurrBalance());
+    }
+
 
 
 
@@ -181,8 +193,6 @@ public class ATM {
             // Check if the input given is an integer
             if (cardInput.hasNextInt()) {
                 cardID = cardInput.nextInt();
-//                input.close(); // stop the scanner
-//                System.out.println("Closed");
             }
             else {
                 cardInput.nextLine(); // clear the input reader
@@ -224,6 +234,62 @@ public class ATM {
             if(counter == 4){
                 atm.currCard.setBlockState(true);
                 System.out.println("This card has been blocked");
+                continue;
+
+            }
+            boolean isComplete = false;
+
+            while(!(isComplete)){
+                System.out.print("Welcome to XYZ ATM, what would you like to do: \n" +
+                        "1. Withdrawal of funds\n" +
+                        "2. Deposit of Funds\n" +
+                        "3. Balance Check\n" + "Please enter the number corresponding to the action: ");
+
+                int selection = 0;
+                if (cardInput.hasNextInt()) {
+                    selection = cardInput.nextInt();
+                }
+                if(selection == 1){
+                    System.out.print("How much would you like to withdraw: ");
+                    if (cardInput.hasNextInt()) {
+                        int amount = cardInput.nextInt();
+                        atm.withdraw(amount);
+                        System.out.println("Card is now being ejected.");
+                        isComplete = true;
+                    }
+                }
+                if(selection == 3){
+                    System.out.println("Your current account balance is: " + atm.checkBalance());
+                    isComplete = true;
+
+                }
+
+            }
+            boolean isComplete = false;
+
+            while(!(isComplete)){
+                System.out.print("Welcome to XYZ ATM, what would you like to do: \n" +
+                        "1. Withdrawal of funds\n" +
+                        "2. Deposit of Funds\n" +
+                        "3. Balance Check\n" + "Please enter the number corresponding to the action: ");
+
+                int selection = 0;
+                if (cardInput.hasNextInt()) {
+                    selection = cardInput.nextInt();
+                }
+                if(selection == 1){
+                    System.out.print("How much would you like to withdraw: ");
+                    if (cardInput.hasNextInt()) {
+                        int amount = cardInput.nextInt();
+                        atm.withdraw(amount);
+                        System.out.println("Card is now being ejected.");
+                        isComplete = true;
+                    }
+                }
+                if(selection == 3){
+                    System.out.println("Your current account balance is: " + atm.checkBalance());
+                    isComplete = true;
+                }
             }
 
             // If valid and pin is correct, provide the user with the 4 options (Withdraw, deposit, check balance, exit account)
