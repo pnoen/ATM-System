@@ -250,13 +250,62 @@ public class ATM {
                     selection = cardInput.nextInt();
                 }
                 if(selection == 1){
-                    System.out.print("How much would you like to withdraw: ");
+                    System.out.print("Would you like to\n" +
+                                        "1. Withdraw funds\n" +
+                                        "2. Cancel\n" + "Please enter the number corresponding to the action: ");
+                    int option = 0;
                     if (cardInput.hasNextInt()) {
-                        int amount = cardInput.nextInt();
-                        atm.withdraw(amount);
-                        System.out.println("Card is now being ejected.");
-                        isComplete = true;
+                        option = cardInput.nextInt();
                     }
+                    if (option == 1){
+                        System.out.print("How much would you like to withdraw: ");
+                        if (cardInput.hasNextInt()) {
+                            int amount = cardInput.nextInt();
+                            atm.withdraw(amount);
+                            System.out.println("Card is now being ejected.");
+                            isComplete = true;
+                        }
+
+                    }
+                    else if (option == 2){
+                        continue;
+                    }
+                    else {
+                        cardInput.nextLine(); // clear the input reader
+                        System.out.println("\nCorrect input only!\n");
+
+                    }
+
+
+                }
+                if(selection == 2){
+                    System.out.print("Would you like to\n" +
+                            "1. Deposit funds\n" +
+                            "2. Cancel\n" + "Please enter the number corresponding to the action: ");
+                    int option = 0;
+                    if (cardInput.hasNextInt()) {
+                        option = cardInput.nextInt();
+                    }
+                    if (option == 1){
+                        System.out.print("How much would you like to deposit: ");
+                        if (cardInput.hasNextInt()) {
+                            int amount = cardInput.nextInt();
+                            atm.deposit(amount);
+                            System.out.println("Card is now being ejected.");
+                            isComplete = true;
+                        }
+
+                    }
+                    else if (option == 2){
+                        continue;
+                    }
+                    else {
+                        cardInput.nextLine(); // clear the input reader
+                        System.out.println("\nCorrect input only!\n");
+
+                    }
+
+
                 }
                 if(selection == 3){
                     System.out.println("Your current account balance is: " + atm.checkBalance());
@@ -264,32 +313,6 @@ public class ATM {
 
                 }
 
-            }
-            boolean isComplete = false;
-
-            while(!(isComplete)){
-                System.out.print("Welcome to XYZ ATM, what would you like to do: \n" +
-                        "1. Withdrawal of funds\n" +
-                        "2. Deposit of Funds\n" +
-                        "3. Balance Check\n" + "Please enter the number corresponding to the action: ");
-
-                int selection = 0;
-                if (cardInput.hasNextInt()) {
-                    selection = cardInput.nextInt();
-                }
-                if(selection == 1){
-                    System.out.print("How much would you like to withdraw: ");
-                    if (cardInput.hasNextInt()) {
-                        int amount = cardInput.nextInt();
-                        atm.withdraw(amount);
-                        System.out.println("Card is now being ejected.");
-                        isComplete = true;
-                    }
-                }
-                if(selection == 3){
-                    System.out.println("Your current account balance is: " + atm.checkBalance());
-                    isComplete = true;
-                }
             }
 
             // If valid and pin is correct, provide the user with the 4 options (Withdraw, deposit, check balance, exit account)
