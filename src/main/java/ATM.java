@@ -1,4 +1,3 @@
-import java.util.Scanner;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
@@ -32,7 +31,7 @@ public class ATM {
             System.out.println("Could not load the database");
             System.exit(0);
         }
-
+        
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
             String[] details = line.split(",");
@@ -127,6 +126,7 @@ public class ATM {
             // If card doesn't exist, continue the loop to ask for another card
 
         }
+
 
     }
 
