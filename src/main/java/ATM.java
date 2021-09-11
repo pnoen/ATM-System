@@ -33,14 +33,12 @@ public class ATM {
             System.exit(0);
         }
 
-        if (sc != null) {
-            while (sc.hasNextLine()) {
-                String line = sc.nextLine();
-                String[] details = line.split(",");
-                // Create the cards
-                Card card = createCard(details[0], details[1], details[2], details[3], details[4], details[5], details[6]);
-                this.cards.add(card);
-            }
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            String[] details = line.split(",");
+            // Create the cards
+            Card card = createCard(details[0], details[1], details[2], details[3], details[4], details[5], details[6]);
+            this.cards.add(card);
         }
     }
 
