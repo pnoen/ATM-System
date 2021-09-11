@@ -1,26 +1,27 @@
 import java.util.Date;
 
 public class Card {
-    private int AccNo; // Account Number
-    private int PIN; // Account PIN Number
+    private int cardID; // Account Number
+    private int pin; // Account PIN Number
+    private int currBalance;
     private boolean isLost; // Is the card lost or stolen
-    private Date issueDate = new Date(); // Date of issue
-    private Date expiryDate = new Date(); // Expiry date
+    private String fullname;
+    private Date issueDate; // Date of issue
+    private Date expiryDate; // Expiry date
     
-    public Card(int n, int p, Date iDate, Date eDate) {
-        this.AccNo = n;
-        this.PIN = p;
+    public Card(int cardID, String fullname, int pin, int currBalance, Date issueDate, Date expiryDate) {
+        this.cardID = cardID;
+        this.pin = pin;
+        this.fullname = fullname;
+        this.currBalance = currBalance;
         this.isLost = false;
-        this.issueDate = iDate;
-        this.expiryDate = eDate;
+        this.issueDate = issueDate;
+        this.expiryDate = expiryDate;
     }
-    
-    public void setPIN(int p) {
-        this.PIN = p;
-    }
+
     
     public int getAccNo() {
-        return this.AccNo;
+        return this.cardID;
     }
     
     public Date getIssueDate() {
@@ -36,7 +37,7 @@ public class Card {
     }
     
     public int getPIN() {
-        return this.PIN;
+        return this.pin;
     }
     
     public boolean isValid(){
