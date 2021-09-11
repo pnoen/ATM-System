@@ -4,9 +4,39 @@
 //Create checkers methods for Card checks
 //Create a card instance
 //Create a function that reads the csv, for each of the lines create a card and then store cards in an arraylist
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 public class ATM {
-    int PINattempts = 0; //To count how many times pin has been entered
-    int funds = 0; //amount of money in ATM
+    String currentDate;
+    String fileName;
+    List<Card> cards = new ArrayList<>();
+
+    public ATM(String currentDate, String fileName){
+        this.currentDate = currentDate;
+        this.fileName = fileName;
+    }
+
+    public void readCSV(){
+
+
+    }
+
+
+    public Card createCard(String cardID, String fullname, String pin, String currBalance, String issueDate, String expiryDate) throws ParseException {
+        //Converting the String to Date Format
+        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+        Date iDate = sdf.parse(issueDate);
+        Date eDate = sdf.parse(expiryDate);
+
+        int cardIDInt = Integer.parseInt(cardID);
+        int pinInt = Integer.parseInt(pin);
+        int currBalanceInt = Integer.parseInt(currBalance);
+        Card newCard = new Card(cardIDInt, fullname, pinInt, currBalanceInt, iDate, eDate);
+
+        return newCard;
+    }
 
     public void confiscate(){
         //confiscate the card, make it invalid
