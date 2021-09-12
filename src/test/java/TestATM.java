@@ -6,7 +6,7 @@ public class TestATM {
 
     @Test
     void testRandom() {
-        ATM test = new ATM("Hello", "asd");
+        ATM test = new ATM("Hello", "asd", 100000);
         String printer = test.noFunds();
         //test.add where add is the method created in the JUnitDemo class
         assertEquals("Not enough money inside ATM", printer);
