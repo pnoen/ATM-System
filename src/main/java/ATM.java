@@ -387,7 +387,6 @@ public class ATM {
     }
 
 
-
     
     public static void main(String[] args) throws ParseException {
         // Create the atm and start it.
