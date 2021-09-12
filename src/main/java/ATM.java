@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -314,6 +316,7 @@ public class ATM {
         System.out.println(" --------------- ");
         System.out.println("Current ATM balance is: " + atm.getBalanceATM());
         System.out.println(" --------------- ");
+
         boolean isDone = false;
         while(!(isDone)){
             System.out.print("Welcome to the maintenance section, How much would you like to add to the ATM balance? ");
@@ -322,17 +325,13 @@ public class ATM {
                 amount = cardInput.nextInt();
                 if (amount < 0){
                     System.out.println("Error amount is invalid.");
-
                 }
                 else{
                     admin.addFunds(amount);
                     isDone = true;
                 }
-
             }
-
         }
-
     }
 
     public int getBalanceATM(){
@@ -342,22 +341,48 @@ public class ATM {
         this.balanceATM = this.balanceATM + amount;
     }
 
-    public void exportCSV() {
+    public void updateCardsCSV() {
         List<List<String>> cardsDetails = new ArrayList<List<String>>();
-        List<String> card = new ArrayList<String>(7);
-        for (int i = 0; i < 7; i++) {
-            card.add("");
-        }
-        for (Card c : this.cards) {
-            String cardID = String.format("%05d", c.getAccNo());
-            card.set(0, cardID);
-            card.set(1, cardID);
-            card.set(2, cardID);
-            card.set(3, cardID);
-            card.set(4, cardID);
-            card.set(5, cardID);
-            card.set(6, cardID);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
 
+        for (Card c : this.cards) {
+            List<String> card = new ArrayList<String>(7);
+            for (int i = 0; i < 7; i++) {
+                card.add("");
+            }
+
+            String cardID = String.format("%05d", c.getAccNo());
+            String name = c.getFullname();
+            String pin = String.format("%04d", c.getPIN());
+            String bal = String.valueOf(c.getCurrBalance());
+
+            String iDate = dateFormat.format(c.getIssueDate());
+            String eDate = dateFormat.format(c.getExpiryDate());
+
+            String lost = String.valueOf(c.getIsLost());
+
+            card.set(0, cardID);
+            card.set(1, name);
+            card.set(2, pin);
+            card.set(3, bal);
+            card.set(4, iDate);
+            card.set(5, eDate);
+            card.set(6, lost);
+            cardsDetails.add(card);
+        }
+
+        try {
+            FileWriter csvWriter = new FileWriter("src/main/java/cards.csv");
+            for (List<String> c : cardsDetails) {
+                csvWriter.append(String.join(",", c));
+                csvWriter.append("\n");
+            }
+
+            csvWriter.flush();
+            csvWriter.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -468,7 +493,9 @@ public class ATM {
                 else {
                     System.out.println("\nCorrect input only!");
                     cardInput.nextLine(); // clear the input reader
+                    continue;
                 }
+                atm.updateCardsCSV();
             }
 
             // If valid and pin is correct, provide the user with the 4 options (Withdraw, deposit, check balance, exit account)
