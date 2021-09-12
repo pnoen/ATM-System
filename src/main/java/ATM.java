@@ -164,8 +164,41 @@ public class ATM {
         return this.currCard.getPIN() == inputPin;
     }
 
-    public int checkBalance(){
+    public int checkBalance() {
         return this.currCard.getCurrBalance();
+    }
+
+    public boolean pinController(Scanner cardInput) {
+        int counter = 1;
+        while (counter < 4) {
+            System.out.println();
+            System.out.print("Enter your card pin: ");
+            if (cardInput.hasNextInt()) {
+                int cardP = cardInput.nextInt();
+                boolean result = this.checkPIN(cardP);
+
+                if(result){ // If PIN is correct
+                    System.out.println("Success");
+                    return true;
+                }
+                else{ // If incorrect, (After 3 failed attempts - lock the card, print an apology, reset the loop to ask for another card)
+                    System.out.println("Invalid Pin " + (3-counter) + " attempts remaining before the card is blocked");
+                    counter++;
+                }
+            }
+
+            else {
+                cardInput.nextLine(); // clear the input reader
+                System.out.println("Integers only!");
+                counter++;
+            }
+        }
+        if(counter == 4){
+            this.currCard.setBlockState(true);
+            System.out.println("This card has been blocked");
+            return false;
+        }
+        return true;
     }
 
     public boolean withdrawController(Scanner cardInput) {
@@ -291,38 +324,12 @@ public class ATM {
             }
 
             // If card exist, ask for PIN
-            int counter = 1;
-            while (counter < 4) {
-                System.out.println();
-                System.out.print("Enter your card pin: ");
-                if (cardInput.hasNextInt()) {
-                    int cardP = cardInput.nextInt();
-                    boolean result = atm.checkPIN(cardP);
-
-                    if(result){ // If PIN is correct
-                        System.out.println("Success");
-                        break;
-                    }
-                    else{ // If incorrect, (After 3 failed attempts - lock the card, print an apology, reset the loop to ask for another card)
-                        System.out.println("Invalid Pin " + (3-counter) + " attempts remaining before the card is blocked");
-                        counter++;
-                    }
-                }
-
-                else {
-                    cardInput.nextLine(); // clear the input reader
-                    System.out.println("Integers only!");
-                    counter++;
-                }
-            }
-            if(counter == 4){
-                atm.currCard.setBlockState(true);
-                System.out.println("This card has been blocked");
+            boolean pinCheck = atm.pinController(cardInput);
+            if (pinCheck == false) {
                 continue;
-
             }
-            boolean isComplete = false;
 
+            boolean isComplete = false;
             while(!(isComplete)){
                 System.out.print("\nWelcome to XYZ ATM, what would you like to do: \n" +
                         "1. Withdrawal of funds\n" +
