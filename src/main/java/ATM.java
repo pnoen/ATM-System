@@ -311,7 +311,7 @@ public class ATM {
         System.out.println("Receipt No: " +  this.transactionCount + "\n" + "Transaction type : Deposit\n" + "Amount deposited: " + amount + "\n" + "Current Balance: " + this.currCard.getCurrBalance());
         System.out.println(" --------------- ");
     }
-
+    
     public void adminAdd(Scanner cardInput, ATM atm, Admin admin){
         System.out.println(" --------------- ");
         System.out.println("Current ATM balance is: " + atm.getBalanceATM());
