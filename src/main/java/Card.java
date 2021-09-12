@@ -20,6 +20,8 @@ public class Card {
         this.expiryDate = expiryDate;
         this.isBlocked = false;
     }
+
+    public String getFullname(){return this.fullname; }
     
     public int getAccNo() {
         return this.cardID;

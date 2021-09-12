@@ -18,10 +18,12 @@ public class ATM {
     private List<Card> cards = new ArrayList<>();
     private Card currCard = null;
     private int transactionCount = 0;
+    private int balanceATM;
 
-    public ATM(String currentDate, String fileName){
+    public ATM(String currentDate, String fileName, int balanceATM){
         this.currentDate = currentDate;
         this.fileName = fileName;
+        this.balanceATM = balanceATM;
     }
 
     public void readCSV() throws ParseException {
@@ -240,6 +242,7 @@ public class ATM {
     public void withdraw(int amount){
         this.transactionCount++;
         int finalAmount = this.currCard.getCurrBalance() - amount;
+        this.balanceATM = this.balanceATM - amount;
         this.currCard.setCurrBalance(finalAmount);
         System.out.println(" --------------- ");
         System.out.println("Receipt No: " +  this.transactionCount + "\n" + "Transaction type : Withdraw\n" + "Amount withdrawed: " + amount + "\n" + "Current Balance: " + this.currCard.getCurrBalance());
@@ -286,10 +289,19 @@ public class ATM {
     public void deposit(int amount) {
         this.transactionCount++;
         int finalAmount = this.currCard.getCurrBalance() + amount;
+        this.balanceATM = this.balanceATM + amount;
         this.currCard.setCurrBalance(finalAmount);
         System.out.println(" --------------- ");
         System.out.println("Receipt No: " +  this.transactionCount + "\n" + "Transaction type : Deposit\n" + "Amount deposited: " + amount + "\n" + "Current Balance: " + this.currCard.getCurrBalance());
         System.out.println(" --------------- ");
+    }
+
+
+    public int getBalanceATM(){
+        return this.balanceATM;
+    }
+    public void addBalanceATM(int amount){
+        this.balanceATM = this.balanceATM + amount;
     }
 
 
@@ -298,8 +310,9 @@ public class ATM {
     
     public static void main(String[] args) throws ParseException {
         // Create the atm and start it.
-        ATM atm = new ATM("01/01/2021", "cards.csv");
+        ATM atm = new ATM("01/01/2021", "cards.csv", 100000);
         atm.readCSV();
+        Admin admin = new Admin(atm);
         Scanner cardInput = new Scanner(System.in);
         while (atm.running) {
             System.out.println();
@@ -317,6 +330,59 @@ public class ATM {
                 continue; // this will send it back to the start of the loop, skipping the code after this
             }
 
+            if (cardID == 99999){
+                boolean isFinished = false;
+                while(!(isFinished)){
+                    System.out.print("\nWelcome" + "to the XYZ ADMINISTRATOR Page\n" +
+                            "Would you like to: \n" +
+                            "1. ADD to ATM balance\n" +
+                            "2. Cancel\n" +
+                            "Please enter the number corresponding to the action: ");
+
+                    int selection = 0;
+                    if (cardInput.hasNextInt()) {
+                        selection = cardInput.nextInt();
+                    }
+
+                    if (selection == 1){
+                        System.out.println(" --------------- ");
+                        System.out.println("Current ATM balance is: " + atm.getBalanceATM());
+                        System.out.println(" --------------- ");
+                        boolean isDone = false;
+                        while(!(isDone)){
+                            System.out.print("Welcome to the maintenance section, How much would you like to add to the ATM balance? ");
+                            int amount = 0;
+                            if (cardInput.hasNextInt()) {
+                                amount = cardInput.nextInt();
+                                if (amount < 0){
+                                    System.out.println("Error amount is invalid.");
+
+                                }
+                                else{
+                                    admin.addFunds(amount);
+                                    isDone = true;
+                                }
+
+                            }
+
+                        }
+                        isFinished = true;
+
+                    }
+                    else if (selection == 2){
+                        isFinished = true;
+                    }
+                    else {
+                        System.out.println("Error: Invalid input please select from the given options.");
+                        cardInput.nextLine(); // clear the input reader
+                    }
+
+                }
+                continue;
+
+
+            }
+
             // Check if the card is valid
             boolean valid = atm.checkValid(cardID);
             if (valid == false) { // If card doesn't exist, continue the loop to ask for another card
@@ -331,7 +397,7 @@ public class ATM {
 
             boolean isComplete = false;
             while(!(isComplete)){
-                System.out.print("\nWelcome to XYZ ATM, what would you like to do: \n" +
+                System.out.print("\nWelcome to XYZ ATM "  + atm.currCard.getFullname() +  ", what would you like to do: \n" +
                         "1. Withdrawal of funds\n" +
                         "2. Deposit of Funds\n" +
                         "3. Balance Check\n" +
