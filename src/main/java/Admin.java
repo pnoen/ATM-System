@@ -5,7 +5,7 @@ public class Admin {
     private int ID;
     private int pin;
 
-    public Admin(ATM atm,int ID, int pin){
+    public Admin(ATM atm,int ID, int pin) {
         this.atm = atm;
         this.ID = ID;
         this.pin = pin;
