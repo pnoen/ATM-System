@@ -340,7 +340,7 @@ public class ATM {
     public void addBalanceATM(int amount) {
         this.balanceATM = this.balanceATM + amount;
     }
-
+    
     public void updateCardsCSV() {
         List<List<String>> cardsDetails = new ArrayList<List<String>>();
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
