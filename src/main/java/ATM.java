@@ -338,8 +338,27 @@ public class ATM {
     public int getBalanceATM(){
         return this.balanceATM;
     }
-    public void addBalanceATM(int amount){
+    public void addBalanceATM(int amount) {
         this.balanceATM = this.balanceATM + amount;
+    }
+
+    public void exportCSV() {
+        List<List<String>> cardsDetails = new ArrayList<List<String>>();
+        List<String> card = new ArrayList<String>(7);
+        for (int i = 0; i < 7; i++) {
+            card.add("");
+        }
+        for (Card c : this.cards) {
+            String cardID = String.format("%05d", c.getAccNo());
+            card.set(0, cardID);
+            card.set(1, cardID);
+            card.set(2, cardID);
+            card.set(3, cardID);
+            card.set(4, cardID);
+            card.set(5, cardID);
+            card.set(6, cardID);
+
+        }
     }
 
 
