@@ -202,6 +202,16 @@ public class ATM {
         }
         return true;
     }
+    public boolean adminPinController(Scanner cardInput, Admin admin){
+        System.out.println();
+        System.out.print("Enter your card pin: ");
+        if (cardInput.hasNextInt()) {
+            int cardP = cardInput.nextInt();
+            return cardP == admin.getPin();
+        }
+
+        return false;
+    }
 
     public boolean withdrawController(Scanner cardInput) {
         System.out.print("\nWould you like to\n" +
@@ -223,7 +233,11 @@ public class ATM {
                     return false;
                 }
                 if (amount > this.currCard.getCurrBalance()) {
-                    System.out.println("There isn't enough cash to withdraw.");
+                    System.out.println("Sorry, you dont have enough funds to withdrawn the amount selected.");
+                    return false;
+                }
+                if(amount > this.balanceATM){
+                    System.out.println("There isn't enough cash in the ATM to withdraw.");
                     return false;
                 }
                 this.withdraw(amount);
@@ -296,6 +310,30 @@ public class ATM {
         System.out.println(" --------------- ");
     }
 
+    public void adminAdd(Scanner cardInput, ATM atm, Admin admin){
+        System.out.println(" --------------- ");
+        System.out.println("Current ATM balance is: " + atm.getBalanceATM());
+        System.out.println(" --------------- ");
+        boolean isDone = false;
+        while(!(isDone)){
+            System.out.print("Welcome to the maintenance section, How much would you like to add to the ATM balance? ");
+            int amount = 0;
+            if (cardInput.hasNextInt()) {
+                amount = cardInput.nextInt();
+                if (amount < 0){
+                    System.out.println("Error amount is invalid.");
+
+                }
+                else{
+                    admin.addFunds(amount);
+                    isDone = true;
+                }
+
+            }
+
+        }
+
+    }
 
     public int getBalanceATM(){
         return this.balanceATM;
@@ -312,7 +350,7 @@ public class ATM {
         // Create the atm and start it.
         ATM atm = new ATM("01/01/2021", "cards.csv", 100000);
         atm.readCSV();
-        Admin admin = new Admin(atm);
+        Admin admin = new Admin(atm, 99999, 9999);
         Scanner cardInput = new Scanner(System.in);
         while (atm.running) {
             System.out.println();
@@ -330,13 +368,18 @@ public class ATM {
                 continue; // this will send it back to the start of the loop, skipping the code after this
             }
 
-            if (cardID == 99999){
+            if (cardID == admin.getID()){
+                boolean passCheck = atm.adminPinController(cardInput, admin);
+                if(!passCheck){
+                    continue;
+                }
                 boolean isFinished = false;
                 while(!(isFinished)){
                     System.out.print("\nWelcome" + "to the XYZ ADMINISTRATOR Page\n" +
                             "Would you like to: \n" +
                             "1. ADD to ATM balance\n" +
-                            "2. Cancel\n" +
+                            "2. Check ATM balance\n" +
+                            "3. Cancel\n" +
                             "Please enter the number corresponding to the action: ");
 
                     int selection = 0;
@@ -345,31 +388,16 @@ public class ATM {
                     }
 
                     if (selection == 1){
-                        System.out.println(" --------------- ");
-                        System.out.println("Current ATM balance is: " + atm.getBalanceATM());
-                        System.out.println(" --------------- ");
-                        boolean isDone = false;
-                        while(!(isDone)){
-                            System.out.print("Welcome to the maintenance section, How much would you like to add to the ATM balance? ");
-                            int amount = 0;
-                            if (cardInput.hasNextInt()) {
-                                amount = cardInput.nextInt();
-                                if (amount < 0){
-                                    System.out.println("Error amount is invalid.");
-
-                                }
-                                else{
-                                    admin.addFunds(amount);
-                                    isDone = true;
-                                }
-
-                            }
-
-                        }
+                        atm.adminAdd(cardInput, atm, admin);
                         isFinished = true;
 
                     }
                     else if (selection == 2){
+                        System.out.println(" --------------- ");
+                        System.out.println("The current ATM balance is " + atm.getBalanceATM());
+                        System.out.println(" --------------- ");
+                    }
+                    else if (selection == 3){
                         isFinished = true;
                     }
                     else {

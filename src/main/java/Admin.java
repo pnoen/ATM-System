@@ -2,9 +2,13 @@
 
 public class Admin {
     private ATM atm;
+    private int ID;
+    private int pin;
 
-    public Admin(ATM atm){
+    public Admin(ATM atm,int ID, int pin){
         this.atm = atm;
+        this.ID = ID;
+        this.pin = pin;
     }
 
     public void addFunds(int amount){
@@ -15,6 +19,8 @@ public class Admin {
         System.out.println(" --------------- ");
 
     }
+    public int getID(){return this.ID;}
+    public int getPin(){return this.pin;}
 
 
 
