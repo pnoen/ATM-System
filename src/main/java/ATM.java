@@ -370,7 +370,7 @@ public class ATM {
     
     public static void main(String[] args) throws ParseException {
         // Create the atm and start it.
-        ATM atm = new ATM("01/01/2021", "cards.csv", 100000);
+        ATM atm = new ATM("01/01/2021", "cards.csv", 199934690);
         atm.readCSV();
         Admin admin = new Admin(atm, 99999, 9999);
         Scanner cardInput = new Scanner(System.in); // Allows for the user to interact with the atm
