@@ -47,7 +47,6 @@ public class ATM {
         }
     }
 
-
     public Card createCard(String cardID, String fullname, String pin, String currBalance, String issueDate, String expiryDate, String state) throws ParseException {
         //Converting the String to Date Format
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
@@ -61,33 +60,6 @@ public class ATM {
         Card newCard = new Card(cardIDInt, fullname, pinInt, currBalanceInt, iDate, eDate, currState);
 
         return newCard;
-    }
-
-    public void confiscate(){
-        //confiscate the card, make it invalid
-    }
-
-    public String enoughBalance(){
-        return "Not enough money";
-    }
-
-    public int checkBalance(Card card){
-        return card.getCurrBalance();
-    }
-
-    public void cancel(){
-        //cancels any transaction happening.
-
-    }
-
-    public void maintenance(){
-        //if user is ADMIN, allow adding cash into system.
-
-    }
-
-    public String noFunds(){
-        cancel();
-        return "Not enough money inside ATM";
     }
 
     public boolean checkValid(int cardID) throws ParseException {
@@ -256,12 +228,13 @@ public class ATM {
     }
 
     public void withdraw(int amount){
-        this.transactionCount++;
-        int finalAmount = this.currCard.getCurrBalance() - amount;
-        this.balanceATM = this.balanceATM - amount;
-        this.currCard.setCurrBalance(finalAmount);
+        this.transactionCount++; // Increase the number of overall transactions
+        int finalAmount = this.currCard.getCurrBalance() - amount; // New balance on the card
+        this.balanceATM = this.balanceATM - amount; // Decrease the amount in the atm
+        this.currCard.setCurrBalance(finalAmount); // Update the balance of the card
         System.out.println(" --------------- ");
-        System.out.println("Receipt No: " +  this.transactionCount + "\n" + "Transaction type : Withdraw\n" + "Amount withdrawed: " + amount + "\n" + "Current Balance: " + this.currCard.getCurrBalance());
+        System.out.println("Receipt No: " +  this.transactionCount + "\n" + "Transaction type : Withdraw\n" +
+                "Amount withdrawn: " + amount + "\n" + "Current Balance: " + this.currCard.getCurrBalance());
         System.out.println(" --------------- ");
     }
 
@@ -303,10 +276,10 @@ public class ATM {
     }
 
     public void deposit(int amount) {
-        this.transactionCount++;
-        int finalAmount = this.currCard.getCurrBalance() + amount;
-        this.balanceATM = this.balanceATM + amount;
-        this.currCard.setCurrBalance(finalAmount);
+        this.transactionCount++; // Increase the number of overall transactions
+        int finalAmount = this.currCard.getCurrBalance() + amount; // New balance of the card
+        this.balanceATM = this.balanceATM + amount; // Increase the amount of cash in the atm
+        this.currCard.setCurrBalance(finalAmount); // Increase the balance of the card
         System.out.println(" --------------- ");
         System.out.println("Receipt No: " +  this.transactionCount + "\n" + "Transaction type : Deposit\n" + "Amount deposited: " + amount + "\n" + "Current Balance: " + this.currCard.getCurrBalance());
         System.out.println(" --------------- ");
@@ -342,24 +315,29 @@ public class ATM {
     }
 
     public void updateCardsCSV() {
+        // Set up a 2D array which holds all details of the Cards stored in the atm.
         List<List<String>> cardsDetails = new ArrayList<List<String>>();
+
+        // Create the format for the Card issue date and expiry date to convert to a string.
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
 
+        // Traverse through the cards stored in the atm and store the fields for the csv in a list.
         for (Card c : this.cards) {
+            // Create a list with a capacity of 7
             List<String> card = new ArrayList<String>(7);
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < 7; i++) {  // Initialise the elements in the list so values can be set by index
                 card.add("");
             }
 
-            String cardID = String.format("%05d", c.getAccNo());
+            String cardID = String.format("%05d", c.getAccNo()); // Convert int to a string and add the leading zeros if necessary.
             String name = c.getFullname();
-            String pin = String.format("%04d", c.getPIN());
+            String pin = String.format("%04d", c.getPIN()); // Convert int to a string and add the leading zeros if necessary.
             String bal = String.valueOf(c.getCurrBalance());
 
-            String iDate = dateFormat.format(c.getIssueDate());
-            String eDate = dateFormat.format(c.getExpiryDate());
+            String iDate = dateFormat.format(c.getIssueDate()); // Convert the Date to a string using the SimpleDateFormat
+            String eDate = dateFormat.format(c.getExpiryDate()); // Convert the Date to a string using the SimpleDateFormat
 
-            String lost = String.valueOf(c.getIsLost());
+            String lost = String.valueOf(c.getIsLost());  // Convert int to string
 
             card.set(0, cardID);
             card.set(1, name);
@@ -371,10 +349,12 @@ public class ATM {
             cardsDetails.add(card);
         }
 
+        // Create the csv writer
         try {
             FileWriter csvWriter = new FileWriter("src/main/java/cards.csv");
+            // Write all the details of the cards into the csv file, having each card on a new line
             for (List<String> c : cardsDetails) {
-                csvWriter.append(String.join(",", c));
+                csvWriter.append(String.join(",", c));  // Combine all elements in the list and separate by a comma
                 csvWriter.append("\n");
             }
 
@@ -382,7 +362,7 @@ public class ATM {
             csvWriter.close();
         }
         catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Error: Couldn't update the database");
         }
     }
 
@@ -393,7 +373,7 @@ public class ATM {
         ATM atm = new ATM("01/01/2021", "cards.csv", 100000);
         atm.readCSV();
         Admin admin = new Admin(atm, 99999, 9999);
-        Scanner cardInput = new Scanner(System.in);
+        Scanner cardInput = new Scanner(System.in); // Allows for the user to interact with the atm
         while (atm.running) {
             System.out.println();
 
@@ -446,11 +426,8 @@ public class ATM {
                         System.out.println("Error: Invalid input please select from the given options.");
                         cardInput.nextLine(); // clear the input reader
                     }
-
                 }
                 continue;
-
-
             }
 
             // Check if the card is valid
@@ -459,50 +436,44 @@ public class ATM {
                 continue;
             }
 
-            // If card exist, ask for PIN
+            // If card exist and is valid, ask for PIN
             boolean pinCheck = atm.pinController(cardInput);
             if (pinCheck == false) {
                 continue;
             }
 
+            // If valid and pin is correct, provide the user with the 3 options (Withdraw, deposit, check balance)
             boolean isComplete = false;
-            while(!(isComplete)){
+            while(!isComplete) {  // Set up a loop to allow the system to repeatedly ask for a input if an incorrect input is provided.
                 System.out.print("\nWelcome to XYZ ATM "  + atm.currCard.getFullname() +  ", what would you like to do: \n" +
                         "1. Withdrawal of funds\n" +
                         "2. Deposit of Funds\n" +
                         "3. Balance Check\n" +
                         "Please enter the number corresponding to the action: ");
 
+                // Get the input of the user
                 int selection = 0;
                 if (cardInput.hasNextInt()) {
                     selection = cardInput.nextInt();
                 }
 
-                if(selection == 1){
+                if(selection == 1) { // If withdraw is selected
                     isComplete = atm.withdrawController(cardInput);
                 }
-                else if(selection == 2){
+                else if(selection == 2) { // If deposit is selected
                     isComplete = atm.depositController(cardInput);
                 }
-                else if(selection == 3){
+                else if(selection == 3) { // If check balance is selected
                     System.out.println("Your current account balance is: " + atm.checkBalance());
                     isComplete = true;
                 }
-                else {
+                else {  // Incorrect input
                     System.out.println("\nCorrect input only!");
                     cardInput.nextLine(); // clear the input reader
                     continue;
                 }
-                atm.updateCardsCSV();
+                atm.updateCardsCSV(); // Update the balance of the csv file
             }
-
-            // If valid and pin is correct, provide the user with the 4 options (Withdraw, deposit, check balance, exit account)
-                // if exit account is selected, return the user back to the home screen (where the user enters a card number)
-
         }
-
-
     }
-
-
 }
