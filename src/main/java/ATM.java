@@ -14,14 +14,14 @@ import java.util.*;
 //Create a function that reads the csv, for each of the lines create a card and then store cards in an arraylist
 
 public class ATM {
-    private boolean running = true;
-    private String currentDate;
-    private String fileName;
-    private List<Card> cards = new ArrayList<>();
-    private Card currCard = null;
-    private int transactionCount = 0;
-    private int balanceATM;
+    private boolean running = true; //if the machine is running or not
+    private String currentDate; //setting the date of the ATM
+    private List<Card> cards = new ArrayList<>(); //list of cards from csv file
+    private Card currCard = null; //current card thats selected
+    private int transactionCount = 0; //Receipt number/ what transaction it is for the ATm
+    private int balanceATM; //ATM balance
 
+    //Setting the variables for the atm
     public ATM(String currentDate, String fileName, int balanceATM){
         this.currentDate = currentDate;
         this.fileName = fileName;
@@ -38,6 +38,7 @@ public class ATM {
             System.exit(0);
         }
 
+        //This loop converts the CSV file to Card objects that we can use
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
             String[] details = line.split(",");
@@ -47,6 +48,7 @@ public class ATM {
         }
     }
 
+    //The function that creates a card with the given variables
     public Card createCard(String cardID, String fullname, String pin, String currBalance, String issueDate, String expiryDate, String state) throws ParseException {
         //Converting the String to Date Format
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
@@ -62,6 +64,7 @@ public class ATM {
         return newCard;
     }
 
+    //THis function checks if the card is valid
     public boolean checkValid(int cardID) throws ParseException {
         // Check if the card id has 5 digits. Since we take in an int, it doesn't keep leading zeros.
         if (Integer.toString(cardID).length() > 5) {
@@ -114,16 +117,16 @@ public class ATM {
         return this.currCard.getIsLost();
     }
     
-    public boolean checkDate() throws ParseException {
+    public boolean checkDate() throws ParseException { //Checks to see if the date on the card is legitimate
         boolean result = true;
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH); //Setting the format of the dates we are using
         Date currDate = sdf.parse(this.currentDate);
 
-        long iDiff = Math.abs(currDate.getTime() - this.currCard.getIssueDate().getTime());
+        long iDiff = Math.abs(currDate.getTime() - this.currCard.getIssueDate().getTime()); //Finding difference with the issue date
         if(iDiff < 0){
             result = false;
         }
-        long eDiff = Math.abs(this.currCard.getExpiryDate().getTime() - currDate.getTime());
+        long eDiff = Math.abs(this.currCard.getExpiryDate().getTime() - currDate.getTime()); //Finding difference with expiry date
         if(eDiff < 0){
             result = false;
         }
@@ -132,19 +135,19 @@ public class ATM {
 
     }
 
-    public boolean checkBlockState(){
+    public boolean checkBlockState(){ //Checks to see if the card is blocked
         return this.currCard.getBlockState();
     }
 
-    public boolean checkPIN(int inputPin) {
+    public boolean checkPIN(int inputPin) { //Checks to see if the pin is correct
         return this.currCard.getPIN() == inputPin;
     }
 
-    public int checkBalance() {
+    public int checkBalance() { //checks balance of the card
         return this.currCard.getCurrBalance();
     }
 
-    public boolean pinController(Scanner cardInput) {
+    public boolean pinController(Scanner cardInput) { //Responsible for the pin input and the logic
         int counter = 1;
         while (counter < 4) {
             System.out.println();
@@ -176,7 +179,7 @@ public class ATM {
         }
         return true;
     }
-    public boolean adminPinController(Scanner cardInput, Admin admin){
+    public boolean adminPinController(Scanner cardInput, Admin admin){ //Since the admin pin is different, this function checks if the admin pin is correct
         System.out.println();
         System.out.print("Enter your card pin: ");
         if (cardInput.hasNextInt()) {
@@ -187,7 +190,7 @@ public class ATM {
         return false;
     }
 
-    public boolean withdrawController(Scanner cardInput) {
+    public boolean withdrawController(Scanner cardInput) { //Controls the logic if the withdraw functionality
         System.out.print("\nWould you like to\n" +
                 "1. Withdraw funds\n" +
                 "2. Cancel\n" +
@@ -238,7 +241,7 @@ public class ATM {
         System.out.println(" --------------- ");
     }
 
-    public boolean depositController(Scanner cardInput) {
+    public boolean depositController(Scanner cardInput) { //Controls the loop and logic of the deposit functionality
         System.out.print("\nWould you like to\n" +
                 "1. Deposit funds\n" +
                 "2. Cancel\n" +
@@ -284,32 +287,36 @@ public class ATM {
         System.out.println("Receipt No: " +  this.transactionCount + "\n" + "Transaction type : Deposit\n" + "Amount deposited: " + amount + "\n" + "Current Balance: " + this.currCard.getCurrBalance());
         System.out.println(" --------------- ");
     }
-    
+
+    //This function controls the 'add' section of the maintenance for the admin
+    //This is the interface asks the admin how much they would like to add to the current balance
     public void adminAdd(Scanner cardInput, ATM atm, Admin admin){
         System.out.println(" --------------- ");
         System.out.println("Current ATM balance is: " + atm.getBalanceATM());
         System.out.println(" --------------- ");
 
-        boolean isDone = false;
+        boolean isDone = false; //checks if the loop is complete or not
         while(!(isDone)){
             System.out.print("Welcome to the maintenance section, How much would you like to add to the ATM balance? ");
             int amount = 0;
-            if (cardInput.hasNextInt()) {
+            if (cardInput.hasNextInt()) { //checking the input of the user
                 amount = cardInput.nextInt();
-                if (amount < 0){
+                if (amount < 0){ //making sure the amount cant be negative
                     System.out.println("Error amount is invalid.");
                 }
                 else{
-                    admin.addFunds(amount);
-                    isDone = true;
+                    admin.addFunds(amount); //adds the amount to the ATM balance
+                    isDone = true; //stops the loop
                 }
             }
         }
     }
 
+    //Gets the current balance of the ATM
     public int getBalanceATM(){
         return this.balanceATM;
     }
+    //Adds 'amount' to the ATM balance
     public void addBalanceATM(int amount) {
         this.balanceATM = this.balanceATM + amount;
     }
