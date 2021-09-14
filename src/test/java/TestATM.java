@@ -26,8 +26,32 @@ public class TestATM {
     @Test
     void testCardCreation() throws ParseException{
         ATM valid_atm = new ATM("01/01/2021", "cards.csv", 199934690);
-        Card test_card = valid_atm.createCard("123", "alex", "123", "0", "1/12/2020", "1/12/2020", "false");
+        Card test_card = valid_atm.createCard("123", "alex", "123", "0", "01/12/2020", "10/12/2020", "false");
         assertEquals("alex", test_card.getFullname());
+        assertEquals(0, test_card.getCurrBalance());
+        assertEquals(123, test_card.getAccNo());
+        assertEquals(123, test_card.getPIN());
+        assertEquals(false, test_card.getIsLost());
+    }
+
+    @Test
+    void testAdminCreation(){
+        ATM test_atm = new ATM("01/01/2021", "cards.csv", 10);
+        Admin admin = new Admin(test_atm, 99999, 9999);
+        assertEquals(99999, admin.getID());
+        assertEquals(9999, admin.getPin());
+        admin.addFunds(10);
+        assertEquals(20, test_atm.getBalanceATM());
+
+    }
+
+    @Test
+    void testBalance() throws ParseException{
+        ATM valid_atm = new ATM("01/01/2021", "cards.csv", 10);
+        valid_atm.readCSV();
+        Admin admin = new Admin(valid_atm, 99999, 9999);
+        assertEquals(10, valid_atm.getBalanceATM());
+
     }
 }
 
