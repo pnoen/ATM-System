@@ -22,9 +22,8 @@ public class ATM {
     private int balanceATM; //ATM balance
 
     //Setting the variables for the atm
-    public ATM(String currentDate, String fileName, int balanceATM){
+    public ATM(String currentDate, int balanceATM){
         this.currentDate = currentDate;
-        this.fileName = fileName;
         this.balanceATM = balanceATM;
     }
 
@@ -377,7 +376,7 @@ public class ATM {
     
     public static void main(String[] args) throws ParseException {
         // Create the atm and start it.
-        ATM atm = new ATM("01/01/2021", "cards.csv", 199934690);
+        ATM atm = new ATM("01/01/2021",199934690);
         atm.readCSV();
         Admin admin = new Admin(atm, 99999, 9999);
         Scanner cardInput = new Scanner(System.in); // Allows for the user to interact with the atm
