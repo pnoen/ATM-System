@@ -3,7 +3,7 @@
 public class Admin {
     private ATM atm;
     private int ID;
-    private int pin
+    private int pin;
 
     //Constructor variables setting the login for the admin
     public Admin(ATM atm,int ID, int pin) {

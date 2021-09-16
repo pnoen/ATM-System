@@ -20,21 +20,22 @@ public class ATM {
     private Card currCard = null; //current card thats selected
     private int transactionCount = 0; //Receipt number/ what transaction it is for the ATm
     private int balanceATM; //ATM balance
+    private String csvFile;
 
     //Setting the variables for the atm
-    public ATM(String currentDate, String fileName, int balanceATM){
+    public ATM(String currentDate, String csvFile, int balanceATM){
         this.currentDate = currentDate;
-        this.fileName = fileName;
         this.balanceATM = balanceATM;
+        this.csvFile = "src/main/java/" + csvFile;
     }
 
     public void readCSV() throws ParseException {
         Scanner sc = null; // Set as null so it can be used outside the try catch
         try { // Calls an error if the csv file is not found
-            sc = new Scanner(new File("src/main/java/cards.csv"));
+            sc = new Scanner(new File(this.csvFile));
         }
         catch (FileNotFoundException e) {
-            System.out.println("Could not load the database");
+            System.out.println("Error: Could not load the database.");
             System.exit(0);
         }
 
@@ -358,7 +359,7 @@ public class ATM {
 
         // Create the csv writer
         try {
-            FileWriter csvWriter = new FileWriter("src/main/java/cards.csv");
+            FileWriter csvWriter = new FileWriter(this.csvFile);
             // Write all the details of the cards into the csv file, having each card on a new line
             for (List<String> c : cardsDetails) {
                 csvWriter.append(String.join(",", c));  // Combine all elements in the list and separate by a comma
