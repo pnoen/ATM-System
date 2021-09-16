@@ -20,20 +20,22 @@ public class ATM {
     private Card currCard = null; //current card thats selected
     private int transactionCount = 0; //Receipt number/ what transaction it is for the ATm
     private int balanceATM; //ATM balance
+    private String csvFile;
 
     //Setting the variables for the atm
-    public ATM(String currentDate, int balanceATM){
+    public ATM(String currentDate, String csvFile, int balanceATM){
         this.currentDate = currentDate;
         this.balanceATM = balanceATM;
+        this.csvFile = "src/main/java/" + csvFile;
     }
 
     public void readCSV() throws ParseException {
         Scanner sc = null; // Set as null so it can be used outside the try catch
         try { // Calls an error if the csv file is not found
-            sc = new Scanner(new File("src/main/java/cards.csv"));
+            sc = new Scanner(new File(this.csvFile));
         }
         catch (FileNotFoundException e) {
-            System.out.println("Could not load the database");
+            System.out.println("Error: Could not load the database.");
             System.exit(0);
         }
 
@@ -357,7 +359,7 @@ public class ATM {
 
         // Create the csv writer
         try {
-            FileWriter csvWriter = new FileWriter("src/main/java/cards.csv");
+            FileWriter csvWriter = new FileWriter(this.csvFile);
             // Write all the details of the cards into the csv file, having each card on a new line
             for (List<String> c : cardsDetails) {
                 csvWriter.append(String.join(",", c));  // Combine all elements in the list and separate by a comma
@@ -376,7 +378,7 @@ public class ATM {
     
     public static void main(String[] args) throws ParseException {
         // Create the atm and start it.
-        ATM atm = new ATM("01/01/2021",199934690);
+        ATM atm = new ATM("01/01/2021", "cards.csv", 199934690);
         atm.readCSV();
         Admin admin = new Admin(atm, 99999, 9999);
         Scanner cardInput = new Scanner(System.in); // Allows for the user to interact with the atm
