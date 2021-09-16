@@ -23,10 +23,10 @@ public class Card {
     }
 
     ///Returns the name of the Card holder
-    public String getFullname(){return this.fullname; }
+    public String getName(){return this.fullname; }
 
     //Returns the card number
-    public int getAccNo() {
+    public int getCardID() {
         return this.cardID;
     }
 
