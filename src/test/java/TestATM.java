@@ -53,6 +53,14 @@ public class TestATM {
         assertEquals(10, valid_atm.getBalanceATM());
 
     }
+
+    @Test
+    void testCheckValid() throws ParseException{
+        ATM valid_atm = new ATM("01/01/2021", "cards.csv", 10);
+        valid_atm.readCSV();
+        assertTrue(valid_atm.checkValid(00006));
+        assertFalse(valid_atm.checkValid(0055));
+    }
 }
 
 
