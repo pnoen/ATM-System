@@ -374,6 +374,10 @@ public class ATM {
         }
     }
 
+    public Card getCurrCard() {
+        return this.currCard;
+    }
+
 
     
     public static void main(String[] args) throws ParseException {
