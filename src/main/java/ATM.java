@@ -212,6 +212,7 @@ public class ATM {
                 }
                 if (amount > this.currCard.getCurrBalance()) {
                     System.out.println("Sorry, you dont have enough funds to withdrawn the amount selected.");
+                    System.out.println("Your current account balance is: " + atm.checkBalance());
                     return false;
                 }
                 if(amount > this.balanceATM){
