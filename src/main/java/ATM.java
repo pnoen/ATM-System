@@ -91,7 +91,7 @@ public class ATM {
         // Check if the card has been stolen
         boolean stolen = this.checkStolen();
         if (stolen == true) {
-            System.out.println("This card is lost or has been stolen.");
+            System.out.println("Sorry, this card is lost or has been stolen.");
             return false;
         }
 
