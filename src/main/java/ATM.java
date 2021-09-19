@@ -53,7 +53,7 @@ public class ATM {
 
     // The function that creates a Card object through the method parameters
     public Card createCard(String cardID, String fullname, String pin, String currBalance, String issueDate, String expiryDate, String state) throws ParseException {
-        //Converting the String to Date Format
+        // Converting the String to SimpleDateFormat
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
         Date iDate = sdf.parse(issueDate);
         Date eDate = sdf.parse(expiryDate);
