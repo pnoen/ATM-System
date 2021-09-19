@@ -12,7 +12,7 @@ import java.util.*;
  * Create the main loop
  * Create checkers methods for Card checks
  * Create a card instance
- * Create a function that reads the csv, for each of the lines create a card and then store cards in an arraylist
+ * Create a function that reads the .csv, for each of the lines create a card and then store cards in an arraylist
  */
 
 public class ATM {
