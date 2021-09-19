@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'jacoco'
+    id 'application'
 }
 
 group 'org.example'
@@ -17,6 +18,7 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    test.finalizedBy jacocoTestReport
 }
 
 jacocoTestReport {
@@ -24,4 +26,10 @@ jacocoTestReport {
         html.enabled = true
         csv.enabled = true
     }
+}
+
+mainClassName = 'ATM'
+
+run {
+    standardInput = System.in
 }
