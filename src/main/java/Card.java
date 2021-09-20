@@ -1,5 +1,6 @@
 import java.util.Date;
 
+// Declare card attributes
 public class Card {
     private int cardID; // Account Number
     private int pin; // Account PIN Number
@@ -10,7 +11,7 @@ public class Card {
     private Date issueDate; // Date of issue
     private Date expiryDate; // Expiry date
 
-    //Sets all the variables
+    // Assigns values to all card attributes from respective parameters
     public Card(int cardID, String fullname, int pin, int currBalance, Date issueDate, Date expiryDate, boolean isLost) {
         this.cardID = cardID;
         this.pin = pin;
@@ -22,50 +23,52 @@ public class Card {
         this.isBlocked = false;
     }
 
-    ///Returns the name of the Card holder
-    public String getFullname(){return this.fullname; }
+    // Returns name of Card holder
+    public String getFullname() {
+        return this.fullname;
+    }
 
-    //Returns the card number
+    // Returns card number
     public int getAccNo() {
         return this.cardID;
     }
 
-    //If the pin fails 3 times, this fucntion sets the block state when needed
-    public void setBlockState(boolean state){
+    // After 3 incorrect PIN attempts, enable 'blocked' state
+    public void setBlockState(boolean state) {
         this.isBlocked = state;
     }
 
-    //Returns the block state
-    public boolean getBlockState(){
+    // Returns block state
+    public boolean getBlockState() {
         return this.isBlocked;
     }
 
-    //Returns the issue date of the card
+    // Returns card's issue date
     public Date getIssueDate() {
         return this.issueDate;
     }
 
-    //Returns the expiry date of the card
+    // Returns card's expiry date
     public Date getExpiryDate() {
         return this.expiryDate;
     }
 
-    //Returns the lost/stolen state of the Card
+    // Returns card's 'lost' or 'stolen' state
     public boolean getIsLost() {
         return this.isLost;
     }
 
-    //Returns the pin for the card
+    // Returns card PIN
     public int getPIN() {
         return this.pin;
     }
 
-    //Sets the balance of the card
-    public void setCurrBalance(int newBalance){
+    // Sets card balance
+    public void setCurrBalance(int newBalance) {
         this.currBalance = newBalance;
     }
 
-    //Gets the current balance of the card
+    // Returns current card balance
     public int getCurrBalance() {
         return this.currBalance;
     }
