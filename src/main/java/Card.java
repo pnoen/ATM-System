@@ -72,4 +72,6 @@ public class Card {
     public int getCurrBalance() {
         return this.currBalance;
     }
+
 }
+
