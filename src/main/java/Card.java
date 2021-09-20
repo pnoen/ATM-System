@@ -1,4 +1,4 @@
-import java.text.SimpleDateFormat;
+import java.util.date;
 
 // Declare card attributes
 public class Card {
@@ -12,7 +12,7 @@ public class Card {
     private Date expiryDate; // Expiry date
 
     // Assigns values to all card attributes from respective parameters
-    public Card(int cardID, String fullname, int pin, int currBalance, SimpleDateFormat issueDate, SimpleDateFormat expiryDate, boolean isLost) {
+    public Card(int cardID, String fullname, int pin, int currBalance, Date issueDate, Date expiryDate, boolean isLost) {
         this.cardID = cardID;
         this.pin = pin;
         this.fullname = fullname;
@@ -44,12 +44,12 @@ public class Card {
     }
 
     // Returns card's issue date
-    public SimpleDateFormat getIssueDate() {
+    public Date getIssueDate() {
         return this.issueDate;
     }
 
     // Returns card's expiry date
-    public SimpleDateFormat getExpiryDate() {
+    public Date getExpiryDate() {
         return this.expiryDate;
     }
 
