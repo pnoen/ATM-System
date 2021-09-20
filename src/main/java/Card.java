@@ -1,4 +1,4 @@
-import java.util.date;
+import java.util.Date;
 
 // Declare card attributes
 public class Card {
