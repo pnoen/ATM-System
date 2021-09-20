@@ -8,15 +8,11 @@ Development of an Automated Teller Machine (ATM) software for XYZ Bank
 
 ## Group Members
 
-Imran Issa
-
-Matthew Karko
-
-Alexander Marrapesse
-
-William Qiu
-
-Raymond Ton
+ - Imran Issa
+ - Matthew Karko
+ - Alexander Marrapesse
+ - William Qiu
+ - Raymond Ton
 
 # Description
 
@@ -60,6 +56,11 @@ Otherwise, commence with the following from within the same directory:
 
 ```bash
 gradle run
+```
+
+For a cleaner output, use this command instead:
+```bash
+gradle --console plain run
 ```
 
 Simply then follow the instructions prompted on the screen.
