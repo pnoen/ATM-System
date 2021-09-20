@@ -25,7 +25,7 @@ public class Card {
 
     // Returns name of Card holder
     public String getFullname() {
-        return this.fullname;
+        return this.fullname; 
     }
 
     // Returns card number
@@ -72,4 +72,6 @@ public class Card {
     public int getCurrBalance() {
         return this.currBalance;
     }
+
 }
+
