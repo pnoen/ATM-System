@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class TestATM {
 
-    private Card currCard;
+
 
     @Test
     void testConstructor() {
