@@ -24,12 +24,12 @@ public class Card {
     }
 
     // Returns name of Card holder
-    public String getName() {
+    public String getFullname() {
         return this.fullname; 
     }
 
     // Returns card number
-    public int getCardID() {
+    public int getAccNo() {
         return this.cardID;
     }
 
