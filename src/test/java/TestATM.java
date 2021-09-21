@@ -8,6 +8,8 @@ import java.util.Date;
 
 public class TestATM {
 
+
+
     @Test
     void testConstructor() {
         ATM test = new ATM("Hello", "test_cards", 100000);
@@ -61,6 +63,33 @@ public class TestATM {
         assertTrue(valid_atm.checkValid(00006));
         assertFalse(valid_atm.checkValid(0055));
     }
+
+    @Test
+    void testWithdraw() throws ParseException{
+        ATM valid_atm = new ATM("01/01/2021", "cards.csv", 10000);
+        valid_atm.readCSV();
+        valid_atm.checkValidID(9);
+        Card card = valid_atm.getCurrCard();
+        valid_atm.withdraw(1000);
+        assertTrue(valid_atm.getBalanceATM() == 9000);
+        assertTrue(card.getCurrBalance() == 9100);
+
+
+    }
+
+    @Test
+    void testDeposit() throws ParseException{
+        ATM valid_atm = new ATM("01/01/2021", "cards.csv", 10000);
+        valid_atm.readCSV();
+        valid_atm.checkValidID(9);
+        Card card = valid_atm.getCurrCard();
+        valid_atm.deposit(1000);
+        assertTrue(valid_atm.getBalanceATM() == 11000);
+        assertTrue(card.getCurrBalance() == 11100);
+
+
+    }
+
 }
 
 
