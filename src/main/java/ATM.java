@@ -388,7 +388,7 @@ public class ATM {
         return this.currCard;
     }
 
-
+    public void setCurrCard(Card c){ this.currCard = c;}
     
     public static void main(String[] args) throws ParseException {
         // Create the ATM and start it up
