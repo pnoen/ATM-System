@@ -2,7 +2,10 @@
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.NoSuchElementException;
@@ -141,9 +144,88 @@ public class TestATM {
         assertEquals(true, valid_atm.depositController(card_inp2));
 
     }
+    @Test
+    void testPinController() throws ParseException, NoSuchElementException {
+
+        ATM valid_atm = new ATM("01/01/2021", "cards.csv", 10);
+        //valid_atm.readCSV()
+        Card test_card = valid_atm.createCard("123", "alex", "123", "5", "01/12/2020", "10/12/2020", "false");
+        valid_atm.setCurrCard(test_card);
+
+        //testing it working
+        Scanner pin_inp = new Scanner("123");
+        assertEquals(true, valid_atm.pinController(pin_inp));
+
+        //testing it with wrong pin
+        Scanner pin_inp1 = new Scanner("122 122 122 122");
+        assertEquals(false, valid_atm.pinController(pin_inp1));
+
+        //testing wrong and eventually right
+        //testing it with wrong pin
+        Scanner pin_inp2 = new Scanner("122 122 123 123");
+        assertEquals(true, valid_atm.pinController(pin_inp2));
+    }
+
+    @Test
+    void testAdminPinController() throws ParseException, NoSuchElementException {
+
+        ATM valid_atm = new ATM("01/01/2021", "cards.csv", 10);
+        //valid_atm.readCSV()
+        Card test_card = valid_atm.createCard("123", "alex", "123", "5", "01/12/2020", "10/12/2020", "false");
+        valid_atm.setCurrCard(test_card);
+        Admin admin = new Admin(valid_atm, 99999, 9999);
+
+        //testing it working
+        Scanner pin_inp3 = new Scanner("9999");
+        assertEquals(true, valid_atm.adminPinController(pin_inp3, admin));
+
+        //testing it not working
+        Scanner pin_inp4 = new Scanner("999");
+        assertEquals(false, valid_atm.adminPinController(pin_inp4, admin));
+
+        //testing it not working
+        Scanner pin_inp5 = new Scanner("");
+        assertEquals(false, valid_atm.adminPinController(pin_inp5, admin));
+
+
+    }
+
+    @Test
+    void testAdminAdd() throws ParseException, NoSuchElementException {
+
+        ATM valid_atm = new ATM("01/01/2021", "cards.csv", 10);
+        //valid_atm.readCSV()
+        Card test_card = valid_atm.createCard("123", "alex", "123", "5", "01/12/2020", "10/12/2020", "false");
+        valid_atm.setCurrCard(test_card);
+        Admin admin = new Admin(valid_atm, 99999, 9999);
+
+        //normal adding
+        Scanner add_inp = new Scanner("10");
+        valid_atm.adminAdd(add_inp, valid_atm, admin);
+        assertEquals(20, valid_atm.getBalanceATM());
+
+
+    }
+
+    @Test
+    void testMain() throws ParseException, NoSuchElementException {
+        String userInput = "00006 0110 3";
+        ByteArrayInputStream bais = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(bais);
+
+        //String expected = "";
+        //ByteArrayOutputStream boas = new ByteArrayOutputStream();
+        //PrintStream printStream = new PrintStream(boas);
+        //System.setOut(printStream);
+        ATM.main(null);
+
+        //String[] lines = boas.toString().split(" ");
+        //String actual = lines[lines.length-1];
+        //System.out.print(actual);
 
 
 
+    }
 }
 
 
