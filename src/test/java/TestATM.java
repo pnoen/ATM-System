@@ -15,7 +15,9 @@ public class TestATM {
 
     @Test
     void testConstructor() {
+
         ATM test = new ATM("Hello", "test_cards", 100000);
+        assertEquals(10, test.getBalanceATM());
     }
 
     @Test
@@ -32,8 +34,8 @@ public class TestATM {
     void testBalance() throws ParseException{
         ATM valid_atm = new ATM("01/01/2021", "cards.csv", 10);
         valid_atm.readCSV();
-        Admin admin = new Admin(valid_atm, 99999, 9999);
-        assertEquals(10, valid_atm.getBalanceATM());
+        //Admin admin = new Admin(valid_atm, 99999, 9999);
+
 
     }
 
