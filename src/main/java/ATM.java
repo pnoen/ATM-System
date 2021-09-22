@@ -488,6 +488,7 @@ public class ATM {
                 else if (selection == 3) { // If check balance is selected
                     System.out.println("Your current account balance is: " + atm.checkBalance());
                     isComplete = true;
+                    atm.running = false;
                 }
                 else {  // Incorrect input
                     System.out.println("\nCorrect input only!");
