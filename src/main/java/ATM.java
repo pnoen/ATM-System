@@ -391,6 +391,24 @@ public class ATM {
 
     
     public static void main(String[] args) throws ParseException {
+        int state = 15;
+        while(state != 2 && state != 1){
+            Scanner stateInput = new Scanner(System.in); // Allows for the user to interact with the atm
+            System.out.print("Which mode would you like to enter: \n" +
+                    "1. Regular Running mode\n" +
+                    "2. Testing mode\n"+
+                    "Please enter the correct mode: ");
+
+            if (stateInput.hasNextInt()) {
+                state = stateInput.nextInt();
+            }
+            else {
+                System.out.println("Integers only!");
+                stateInput.nextLine(); // Clear the input reader
+            }
+        }
+
+
         // Create the ATM and start it up
         ATM atm = new ATM("01/01/2021", "cards.csv", 199934690);
         atm.readCSV();
@@ -488,6 +506,11 @@ public class ATM {
                 else if (selection == 3) { // If check balance is selected
                     System.out.println("Your current account balance is: " + atm.checkBalance());
                     isComplete = true;
+                    if(state == 2){
+                        atm.running = false;
+                    }
+
+
                 }
                 else {  // Incorrect input
                     System.out.println("\nCorrect input only!");
