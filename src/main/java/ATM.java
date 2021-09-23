@@ -392,9 +392,9 @@ public class ATM {
 
     public static void main(String[] args) throws ParseException {
         int state = 15;
+
         Scanner cardInput = new Scanner(System.in); // Allows for the user to interact with the atm
         while(state != 2 && state != 1){
-
             System.out.print("Which mode would you like to enter: \n" +
                     "1. Regular Running mode\n" +
                     "2. Testing mode\n"+
@@ -406,6 +406,7 @@ public class ATM {
             else {
                 System.out.println("Integers only!");
                 cardInput.nextLine(); // Clear the input reader
+
             }
         }
 
