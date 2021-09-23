@@ -74,7 +74,7 @@ The following instructions assumes Gradle and Java are installed on your PC.
 The ATM application can be tested by entering the following in a Linux-supported terminal from the directory of the 'build.gradle' file:
 
 ```bash
-gradle check
+gradle test
 ```
 
 If there are errors, please raise the issue immediately with the development team.
