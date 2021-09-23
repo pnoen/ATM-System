@@ -63,6 +63,7 @@ For a cleaner output, use this command instead:
 ```bash
 gradle --console plain run
 ```
+When the system runs, Select option 1 at the first prompt to start the ATM in regular running mode.
 
 Simply then follow the instructions prompted on the screen.
 
