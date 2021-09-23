@@ -50,7 +50,7 @@ public class ATM {
             this.cards.add(card);
         }
     }
-
+    public void setCurrCard(Card c){ this.currCard = c;}
     // The function that creates a Card object through the method parameters
     public Card createCard(String cardID, String fullname, String pin, String currBalance, String issueDate, String expiryDate, String state) throws ParseException {
         // Converting the String to SimpleDateFormat
@@ -115,7 +115,7 @@ public class ATM {
         }
         return false;
     }
-    
+
     public boolean checkDate() throws ParseException { // Checks to see if the date on the card is legitimate
         boolean result = true;
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH); // Setting the format of the dates we are using
@@ -132,7 +132,7 @@ public class ATM {
 
         return result;
     }
-    
+
     public boolean checkStolen() {
         return this.currCard.getIsLost();
     }
@@ -151,7 +151,7 @@ public class ATM {
 
     public boolean pinController(Scanner cardInput) { // Responsible for PIN input and logic
         int counter = 1;
-        
+
         while (counter < 4) {
             System.out.println();
             System.out.print("Enter your card pin: ");
@@ -175,7 +175,7 @@ public class ATM {
                 counter++;
             }
         }
-        
+
         if (counter == 4) { // After 3 failed attempts - lock the card, print an apology, reset the loop and ask for another card
             this.currCard.setBlockState(true);
             System.out.println("Sorry, this card has been blocked.");
@@ -227,11 +227,11 @@ public class ATM {
                 return true;
             }
         }
-        
+
         else if (option == 2) {
             return false;
         }
-        
+
         System.out.println("\nCorrect input only!");
         cardInput.nextLine(); // Clear the input reader
         return false;
@@ -277,11 +277,11 @@ public class ATM {
                 return true;
             }
         }
-        
+
         else if (option == 2) {
             return false;
         }
-        
+
         System.out.println("\nCorrect input only!");
         cardInput.nextLine(); // Clear the input reader
         return false;
@@ -293,7 +293,7 @@ public class ATM {
         this.balanceATM = this.balanceATM + amount; // Increase the amount of cash in the ATM
         this.currCard.setCurrBalance(finalAmount); // Increase the balance of the card
         System.out.println(" --------------- ");
-        System.out.println("Receipt No: " +  this.transactionCount + "\n" + "Transaction type : Deposit\n" + 
+        System.out.println("Receipt No: " +  this.transactionCount + "\n" + "Transaction type : Deposit\n" +
                 "Amount deposited: " + amount + "\n" + "Current Balance: " + this.currCard.getCurrBalance());
         System.out.println(" --------------- ");
     }
@@ -309,7 +309,7 @@ public class ATM {
         while(!(isDone)) {
             System.out.print("Welcome to the maintenance section! How much would you like to add to the ATM balance? ");
             int amount = 0;
-            
+
             if (cardInput.hasNextInt()) { // Checks the user input
                 amount = cardInput.nextInt();
                 if (amount < 0){ // Checks if the amount is illegal
@@ -326,7 +326,7 @@ public class ATM {
     public int getBalanceATM(){
         return this.balanceATM;
     }
-    
+
     // Adds the 'amount' parameter to the ATM balance
     public void addBalanceATM(int amount) {
         this.balanceATM = this.balanceATM + amount;
@@ -388,14 +388,33 @@ public class ATM {
         return this.currCard;
     }
 
-    public void setCurrCard(Card c){ this.currCard = c;}
-    
+
+
     public static void main(String[] args) throws ParseException {
+        int state = 15;
+        Scanner cardInput = new Scanner(System.in); // Allows for the user to interact with the atm
+        while(state != 2 && state != 1){
+
+            System.out.print("Which mode would you like to enter: \n" +
+                    "1. Regular Running mode\n" +
+                    "2. Testing mode\n"+
+                    "Please enter the correct mode: ");
+
+            if (cardInput.hasNextInt()) {
+                state = cardInput.nextInt();
+            }
+            else {
+                System.out.println("Integers only!");
+                cardInput.nextLine(); // Clear the input reader
+            }
+        }
+
+
         // Create the ATM and start it up
         ATM atm = new ATM("01/01/2021", "cards.csv", 199934690);
         atm.readCSV();
         Admin admin = new Admin(atm, 99999, 9999);
-        Scanner cardInput = new Scanner(System.in); // Allows for the user to interact with the atm
+        //Scanner cardInput = new Scanner(System.in); // Allows for the user to interact with the atm
         while (atm.running) {
             System.out.println();
 
@@ -407,7 +426,7 @@ public class ATM {
                 cardID = cardInput.nextInt();
             }
             else {
-                System.out.println("Integers only!");
+                System.out.println("Integers only!" );
                 cardInput.nextLine(); // Clear the input reader
                 continue; // Continue the loop from the beginning
             }
@@ -488,7 +507,11 @@ public class ATM {
                 else if (selection == 3) { // If check balance is selected
                     System.out.println("Your current account balance is: " + atm.checkBalance());
                     isComplete = true;
-                    atm.running = false;
+                    if(state == 2){
+                        atm.running = false;
+                    }
+
+
                 }
                 else {  // Incorrect input
                     System.out.println("\nCorrect input only!");
