@@ -10,7 +10,7 @@ Development of an Automated Teller Machine (ATM) software for XYZ Bank
 
  - Imran Issa
  - Matthew Karko
- - Alexander Marrapesse
+ - Alexander Marrapese
  - William Qiu
  - Raymond Ton
 
