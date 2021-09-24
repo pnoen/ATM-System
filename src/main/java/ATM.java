@@ -508,9 +508,6 @@ public class ATM {
                 else if (selection == 3) { // If check balance is selected
                     System.out.println("Your current account balance is: " + atm.checkBalance());
                     isComplete = true;
-                    if(state == 2){
-                        atm.running = false;
-                    }
 
 
                 }
@@ -520,6 +517,9 @@ public class ATM {
                     continue;
                 }
                 atm.updateCardsCSV(); // Update the balance of the .csv file
+                if(state == 2){
+                    atm.running = false;
+                }
             }
         }
     }
