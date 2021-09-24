@@ -1,48 +1,37 @@
-
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.*;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.text.ParseException;
-import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class TestATM {
+    private ATM valid_atm;
 
-    @Test
-    void testConstructor() {
-
-        //ATM test = new ATM("Hello", "test_cards", 100000);
-        //assertEquals(10, test.getBalanceATM());
-    }
-
-    @Test
-    void testFileReader() throws ParseException {
-
-        ATM valid_atm = new ATM("01/01/2021", "cards.csv", 199934690);
-        ATM invalid_atm = new ATM("01/01/2021", "fakecards.csv", 199934690);
-
-        //Assertions.assertThrows(FileNotFoundException.class, ()-> invalid_atm.readCSV());
-        //assertEquals("Could not load the database", valid_atm.readCSV());
-    }
-
-    @Test
-    void testBalance() throws ParseException{
+    @BeforeEach
+    public void setup() throws ParseException {
         ATM valid_atm = new ATM("01/01/2021", "cards.csv", 10);
         valid_atm.readCSV();
-        //Admin admin = new Admin(valid_atm, 99999, 9999);
+    }
 
+    @Test
+    void testConstructor() throws ParseException {
+        ATM test = new ATM("01/01/2021", "cards.csv", 10);
+        test.readCSV();
 
+        //testing to ensure constructor sets values correctlu
+        assertEquals(10, test.getBalanceATM());
+        assertNotEquals(12, test.getBalanceATM());
     }
 
     @Test
     void testCheckValid() throws ParseException{
-        ATM valid_atm = new ATM("01/01/2021", "cards.csv", 10);
-        valid_atm.readCSV();
+        //ATM valid_atm = new ATM("01/01/2021", "cards.csv", 10);
+        //valid_atm.readCSV();
+
+        //checking if check valid works
         assertTrue(valid_atm.checkValid(00006));
         assertFalse(valid_atm.checkValid(0055));
     }
@@ -53,6 +42,8 @@ public class TestATM {
         valid_atm.readCSV();
         valid_atm.checkValidID(9);
         Card card = valid_atm.getCurrCard();
+
+        //ensuring withdraw function works
         valid_atm.withdraw(1000);
         assertTrue(valid_atm.getBalanceATM() == 9000);
         assertTrue(card.getCurrBalance() == 9100);
@@ -66,6 +57,8 @@ public class TestATM {
         valid_atm.readCSV();
         valid_atm.checkValidID(9);
         Card card = valid_atm.getCurrCard();
+
+        //ensuring deposit works
         valid_atm.deposit(1000);
         assertTrue(valid_atm.getBalanceATM() == 11000);
         assertTrue(card.getCurrBalance() == 11100);
@@ -77,25 +70,20 @@ public class TestATM {
         //valid_atm.readCSV();
         Card test_card = valid_atm.createCard("123", "alex", "123", "5", "01/12/2020", "10/12/2020", "false");
 
-        //testing improper input
-        //Scanner card_inp = new Scanner("1-1");
-        //assertEquals(false, valid_atm.withdrawController(card_inp));
-
         //withdrawing too much amount (cause of my card)
         valid_atm.setCurrCard(test_card);
         Scanner card_inp1 = new Scanner("1 6");
-        assertEquals(false, valid_atm.withdrawController(card_inp1));
+        assertFalse(valid_atm.withdrawController(card_inp1));
 
         //withdrawing impossible amount
         valid_atm.setCurrCard(test_card);
         Scanner card_inp4 = new Scanner("1 -1");
-        assertEquals(false, valid_atm.withdrawController(card_inp4));
+        assertFalse(valid_atm.withdrawController(card_inp4));
 
         //withdrawing right  amount
         valid_atm.setCurrCard(test_card);
         Scanner card_inp2 = new Scanner("1 4");
-        assertEquals(true, valid_atm.withdrawController(card_inp2));
-
+        assertTrue(valid_atm.withdrawController(card_inp2));
     }
 
     @Test
@@ -107,17 +95,12 @@ public class TestATM {
         //withdrawing too much amount (cause of the atm balance)
         valid_atm.setCurrCard(test_card);
         Scanner card_inp3 = new Scanner("1 11");
-        assertEquals(false, valid_atm.withdrawController(card_inp3));
-
-        //selecting a number that's not an option
-        //valid_atm.setCurrCard(test_card);
-        //Scanner card_inp5 = new Scanner("4");
-        //assertEquals(false, valid_atm.withdrawController(card_inp5));
+        assertFalse(valid_atm.withdrawController(card_inp3));
 
         //pressing cancel
         valid_atm.setCurrCard(test_card);
         Scanner card_inp6 = new Scanner("2");
-        assertEquals(false, valid_atm.withdrawController(card_inp6));
+        assertFalse(valid_atm.withdrawController(card_inp6));
     }
 
     @Test
@@ -126,24 +109,20 @@ public class TestATM {
         //valid_atm.readCSV();
         Card test_card = valid_atm.createCard("123", "alex", "123", "5", "01/12/2020", "10/12/2020", "false");
 
-        //testing improper input
-        //Scanner card_inp = new Scanner("1-1");
-        //assertEquals(false, valid_atm.withdrawController(card_inp));
-
-        // depositing not an australian note
+        //depositing not an australian note
         valid_atm.setCurrCard(test_card);
         Scanner card_inp1 = new Scanner("1 6");
-        assertEquals(false, valid_atm.depositController(card_inp1));
+        assertFalse(valid_atm.depositController(card_inp1));
 
         //depositing impossible amount
         valid_atm.setCurrCard(test_card);
         Scanner card_inp4 = new Scanner("1 -1");
-        assertEquals(false, valid_atm.depositController(card_inp4));
+        assertFalse(valid_atm.depositController(card_inp4));
 
-        //depositing right  amount
+        //depositing right amount
         valid_atm.setCurrCard(test_card);
         Scanner card_inp2 = new Scanner("1 5");
-        assertEquals(true, valid_atm.depositController(card_inp2));
+        assertTrue(valid_atm.depositController(card_inp2));
 
     }
     @Test
@@ -156,16 +135,15 @@ public class TestATM {
 
         //testing it working
         Scanner pin_inp = new Scanner("123");
-        assertEquals(true, valid_atm.pinController(pin_inp));
+        assertTrue(valid_atm.pinController(pin_inp));
 
         //testing it with wrong pin
         Scanner pin_inp1 = new Scanner("122 122 122 122");
-        assertEquals(false, valid_atm.pinController(pin_inp1));
+        assertFalse(valid_atm.pinController(pin_inp1));
 
         //testing wrong and eventually right
-        //testing it with wrong pin
         Scanner pin_inp2 = new Scanner("122 122 123 123");
-        assertEquals(true, valid_atm.pinController(pin_inp2));
+        assertTrue(valid_atm.pinController(pin_inp2));
     }
 
     @Test
@@ -179,17 +157,15 @@ public class TestATM {
 
         //testing it working
         Scanner pin_inp3 = new Scanner("9999");
-        assertEquals(true, valid_atm.adminPinController(pin_inp3, admin));
+        assertTrue(valid_atm.adminPinController(pin_inp3, admin));
 
         //testing it not working
         Scanner pin_inp4 = new Scanner("999");
-        assertEquals(false, valid_atm.adminPinController(pin_inp4, admin));
+        assertFalse(valid_atm.adminPinController(pin_inp4, admin));
 
         //testing it not working
         Scanner pin_inp5 = new Scanner("");
-        assertEquals(false, valid_atm.adminPinController(pin_inp5, admin));
-
-
+        assertFalse(valid_atm.adminPinController(pin_inp5, admin));
     }
 
     @Test
@@ -201,11 +177,10 @@ public class TestATM {
         valid_atm.setCurrCard(test_card);
         Admin admin = new Admin(valid_atm, 99999, 9999);
 
-        //normal adding
+        //testing normal adding
         Scanner add_inp = new Scanner("10");
         valid_atm.adminAdd(add_inp, valid_atm, admin);
         assertEquals(20, valid_atm.getBalanceATM());
-
 
     }
 
@@ -215,17 +190,21 @@ public class TestATM {
         ByteArrayInputStream bais = new ByteArrayInputStream(userInput.getBytes());
         System.setIn(bais);
 
-        //String expected = "";
-        //ByteArrayOutputStream boas = new ByteArrayOutputStream();
-        //PrintStream printStream = new PrintStream(boas);
-        //System.setOut(printStream);
+        PrintStream original = System.out;
+
+        String expected = "47567\n";
+        ByteArrayOutputStream boas = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(boas);
+        System.setOut(printStream);
+
         ATM.main(null);
 
-        //String[] lines = boas.toString().split(" ");
-        //String actual = lines[lines.length-1];
-        //System.out.print(actual);
+        String[] lines = boas.toString().split(" ");
+        String actual = lines[lines.length-1];
 
-
+        System.setOut(original);
+        System.out.println(actual);
+        assertEquals(expected, actual);
 
     }
 }
