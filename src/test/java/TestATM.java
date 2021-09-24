@@ -8,13 +8,13 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class TestATM {
-    private ATM valid_atm;
+//    private ATM valid_atm;
 
-    @BeforeEach
-    public void setup() throws ParseException {
-        ATM valid_atm = new ATM("01/01/2021", "cards.csv", 10);
-        valid_atm.readCSV();
-    }
+//    @BeforeEach
+//    public void setup() throws ParseException {
+//        ATM valid_atm = new ATM("01/01/2021", "cards.csv", 10);
+//        valid_atm.readCSV();
+//    }
 
     @Test
     void testConstructor() throws ParseException {
@@ -28,8 +28,8 @@ public class TestATM {
 
     @Test
     void testCheckValid() throws ParseException{
-        //ATM valid_atm = new ATM("01/01/2021", "cards.csv", 10);
-        //valid_atm.readCSV();
+        ATM valid_atm = new ATM("01/01/2021", "cards.csv", 10);
+        valid_atm.readCSV();
 
         //checking if check valid works
         assertTrue(valid_atm.checkValid(00006));
