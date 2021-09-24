@@ -44,7 +44,7 @@ Our team employed Agile practices during the development of this application. Th
 
 # Running the Application
 
-The following instructions assumes Gradle and Java are installed on your PC.
+The following instructions assumes Gradle 6.7 and Java are installed on your PC.
 
 The ATM application can be run by entering the following in a Linux-supported terminal from the directory of the 'build.gradle' file:
 
