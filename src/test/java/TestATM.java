@@ -173,9 +173,11 @@ public class TestATM {
         ATM.main(null);
 
         //comparing expected output to what we actually return
-        String expected = "47567\n";
+        String expected = "47567";
         String[] output = outputStream.toString().split(" ");
-        assertEquals(expected, output[output.length-1]);
+        String actual = output[output.length-1];
+        assertEquals(expected, actual.trim());
+
     }
 
 }
