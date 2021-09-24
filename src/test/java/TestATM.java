@@ -158,27 +158,26 @@ public class TestATM {
 
     @Test
     void testMain() throws ParseException, NoSuchElementException {
+        //testing check balance feature
+
+        //passing through input
         String userInput = "2 00006 0110 3";
-        ByteArrayInputStream bais = new ByteArrayInputStream(userInput.getBytes());
-        System.setIn(bais);
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(userInput.getBytes());
+        System.setIn(inputStream);
 
-        PrintStream original = System.out;
-
-        String expected = "47567\n";
-        ByteArrayOutputStream boas = new ByteArrayOutputStream();
-        PrintStream printStream = new PrintStream(boas);
+        //catching output
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(outputStream);
         System.setOut(printStream);
 
         ATM.main(null);
 
-        String[] lines = boas.toString().split(" ");
-        String actual = lines[lines.length-1];
-
-        System.setOut(original);
-        System.out.println(actual);
-        assertEquals(expected, actual);
-
+        //comparing expected output to what we actually return
+        String expected = "47567\n";
+        String[] output = outputStream.toString().split(" ");
+        assertEquals(expected, output[output.length-1]);
     }
+
 }
 
 
