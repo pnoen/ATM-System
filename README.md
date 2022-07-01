@@ -1,6 +1,8 @@
+# Please don't plagarise.
+
 # Assignment Name
 
-SOFT2412 Group project Assignment 1 – Tools for Agile Software Development (2021)
+Tools for Agile Software Development (2021)
 
 ## Project Name
 
@@ -78,9 +80,3 @@ gradle test
 ```
 
 If there are errors, please raise the issue immediately with the development team.
-
-# Contribution and Collaboration
-
-Pull requests are welcome. However, pushing any commits must be first discussed with the group members. This is a private project, thus it is required to raise any concerns and/or opportunities with the team regarding the application. Once you have been granted approval for changes, be sure to update test cases appropriately.
-
-Distribution of this project is strictly prohibited.
