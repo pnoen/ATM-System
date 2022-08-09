@@ -19,9 +19,6 @@ Development of an Automated Teller Machine (ATM) software for XYZ Bank
 
 # Description
 
-Use Git or check-out with SVN using this URL:
-[ATM for XYZ Bank](https://github.sydney.edu.au/SOFT2412-2021S2/Assignment__1.git)
-
 The code is written in Java, spread across three files:
  - ATM.java
  - Card.java
